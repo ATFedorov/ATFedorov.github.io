@@ -187,3 +187,7 @@ body {
   padding-left: 25px;
   background-image: url("img/icon-phone.svg");
 }
+
+.danger-text {
+  color: #FF0000;
+}
