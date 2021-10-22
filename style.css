@@ -83,8 +83,12 @@ body {
 }
 
 .user-image {
-  margin: 0 0 32px;
+  margin: 0;
   text-align: center;
+}
+
+.user-image img {
+  border-radius: 50%;
 }
 
 .intro h3,
@@ -116,6 +120,11 @@ body {
 
 .skill-css {
   background-image: url("img/icon-css.svg");
+}
+
+.skill-js {
+  background-image: url("img/icon-js.svg");
+  background-size: 25px auto;
 }
 
 .level {
@@ -160,6 +169,7 @@ body {
 
 .button {
   padding: 6px 20px;
+  float: right;
   display: inline-block;
   vertical-align: baseline;
   text-decoration: none;
@@ -195,4 +205,18 @@ body {
 
 .danger-text {
   color: #FF0000;
+}
+
+.layout-column1 {
+  float: left;
+  width: 160px;
+  padding: 20px;
+  background-color: lightgray;
+  border-radius: 10px;
+}
+
+.layout-column2 {
+  border-left: 1px solid gray;
+  margin-left: 220px;
+  padding-left: 20px;
 }

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700|Old+Standard+TT&display=swap&subset=cyrillic" rel="stylesheet">
-    <title>Портфолио Junior верстальщика</title>
+    <title>Портфолио Junior front-end разработчика</title>
   </head>
 
   <body>
@@ -18,51 +18,56 @@
     <main>
       <div class="container">
         <section class="hero-image">
-          <h1 class="heading">Федоров Артем</h1>
-          <p>Junior верстальщик</p>
+          <h1 class="heading">Artem Fedorov</h1>
+          <p>Junior front-end developer</p>
         </section>
 
         <section class="intro">
-          <h2 class="subheading">Давайте познакомимся</h2>
-          <figure class="user-image">
-            <img src="files/user.jpg" width="928" alt="Фотография Фодорова Артема">
-          </figure>
-          <h3>Пара слов о себе</h3>
-          <p>В данный момент прохожу интерактивные курсы по веб-вёрстке на <a href="https://htmlacademy.ru/">htmlacademy</a> (спасибо родному МИФИ за инвайт). Можно сказать, открыл для себя целый мир. Оказалось, что вёрстка это совсем не сложно и очень увлекательно. Поэтому я решил создать сайт-портфолио, на котором смогу поделиться своими проектами.</p>
-          <h3>Чем могу быть полезен</h3>
-          <p>Хмм, дайте подумать...</p>
-          <dl>
-            <dt>Сверстать страницы сайта по макету?</dt>
-            <dd>Это пожалуй можно.</dd>
-            <dt>Поработать над улучшением внешнего вида сайта?</dt>
-            <dd>Почему бы и нет. Хозяин барин)</dd>
-            <dt>Сделать с нуля интернет-магазин?</dt>
-            <dd>Хмм, пожалуй, <span class="danger-text">малой кровью</span> не отделаемся. <em>Без сильных back-end разработчиков здесь не обойтись.</em></dd>
-          </dl>
-          <div class="skills">
-            <h3>Мои навыки</h3>
-            <dl class="skills-list">
-              <dt class="skill-html">HTML</dt>
-              <dd class="level"><div style="width: 60%;">60%</div></dd>
-              <dt class="skill-css">CSS</dt>
-              <dd class="level"><div style="width: 40%;">40%</div></dd>
+          <h2 class="subheading">Let me introduce myself</h2>
+          <div class="layout-positioner">
+            <div class="layout-column1">
+              <figure class="user-image">
+                <img src="files/user.jpg" width="160" height="160" alt="Artem Fedorov photo">
+              </figure>
+            </div>
+            <div class="layout-column2">
+              <h3>Personal info</h3>
+              <p>As far as I know nobody really interested in this part 😉</p>
+              <div class="skills">
+                <h3>Skills</h3>
+                <dl class="skills-list">
+                  <dt class="skill-html">HTML</dt>
+                  <dd class="level"><div style="width: 70%;">70%</div></dd>
+                  <dt class="skill-css">CSS</dt>
+                  <dd class="level"><div style="width: 50%;">50%</div></dd>
+                  <dt class="skill-js">JavaScript</dt>
+                  <dd class="level"><div style="width: 30%;">30%</div></dd>
+                </dl>
+              </div>
+              <h3>Courses</h3>
+              <p>I've been studying in <a href="https://htmlacademy.ru/">HTML Academy</a> (thanks to MEPhI for invite)</p>
+            </div>
           </div>
         </section>
 
         <section class="portfolio">
-          <h2 class="subheading">Мои работы</h2>
+          <h2 class="subheading">Projects</h2>
           <figure class="project-image">
             <img src="files/project-blog.png" width="928" alt="Сайт начинающего верстальщика">
           </figure>
-          <h3>Блог начинающего верстальщика</h3>
-          <p>Статический блог про обучение HTML и CSS.</p>
-          <a class="button" href="source/project-blog/index.html">Открыть страницу</a>
+          <div class="layout-positioner">
+            <a class="button" href="source/project-blog/index.html">Visit the page</a>
+            <h3>Novice front-end developer blog</h3>
+            <p>Static blog about learning HTML & CSS</p>
+          </div
           <figure class="project-image">
             <img src="files/project-gloevk.jpg" width="928" alt="Cайт магазина товаров для дома">
           </figure>
-          <h3>Магазин товаров для дома</h3>
-          <p>Мой первый сайт.</p>
-          <a class="button" href="source/project-gloevk/index.html">Открыть страницу</a>
+          <div class="layout-positioner">
+            <a class="button" href="source/project-gloevk/index.html">Visit the page</a>
+            <h3>Home goods store</h3>
+            <p>My first site</p>
+          </div>
         </section>
       </div>
     </main>
