@@ -73,6 +73,12 @@ body {
   margin: 0 0 120px;
 }
 
+.intro .layout-positioner {
+  background-color: lightgray;
+  padding: 20px;
+  border-radius: 10px;
+}
+
 .subheading {
   margin: 0 0 56px;
   font-family: "Old Standard TT", "Times", "Times New Roman", serif;
@@ -142,6 +148,10 @@ body {
   height: 12px;
   background-color: #288be6;
   border-radius: 6px;
+}
+
+.level div:hover {
+  cursor: pointer;
 }
 
 .portfolio {
@@ -220,8 +230,6 @@ body {
   float: left;
   width: 160px;
   padding: 20px;
-  background-color: lightgray;
-  border-radius: 10px;
 }
 
 .layout-column2 {
