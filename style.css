@@ -180,6 +180,14 @@ body {
   color: #ffffff;
 }
 
+.button:hover {
+  background-color: #086bc6;
+}
+
+.button:active {
+  background-color: #f88b16;
+}
+
 .page-footer {
   padding: 40px 0;
   background-color: #00417d;
