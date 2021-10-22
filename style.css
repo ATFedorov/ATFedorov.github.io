@@ -174,7 +174,8 @@ body {
   vertical-align: baseline;
   text-decoration: none;
   text-transform: uppercase;
-  border-radius: 4px;
+  text-weight: bold;
+  border-radius: 10px;
   background-color: #288be6;
   color: #ffffff;
 }
@@ -219,4 +220,15 @@ body {
   border-left: 1px solid gray;
   margin-left: 220px;
   padding-left: 20px;
+}
+
+.project {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: lightgray;
+  border-radius: 10px;
+}
+
+.project img {
+  border-radius: 10px;
 }
