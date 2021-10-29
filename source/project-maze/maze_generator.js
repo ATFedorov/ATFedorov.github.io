@@ -148,7 +148,7 @@ for (let cell of cells) {
     
     if (cell.contains(cat)) {
       
-      alert("Вы нашли пропавшую кошку!");
+      alert("Поздравляем! Вам удалось найти кошку, а принцесса сияет от счастья. Все ее 13 кошек теперь в полном порядке :)");
       player.remove();
       cat.remove();
       for (let c of cells) c.style.backgroundColor = "lightgray";
