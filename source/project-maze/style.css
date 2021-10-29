@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 23px;
+  line-height: 1.5em;
+  color: white;
+}
+
+body main {
+  padding-top: 35px;
+  border-top: 5px solid black;
+  border-bottom: 5px solid black;
+  background-color: #002b2b;
+  background: url("img/bg.jpg") no-repeat center;
+  background-size: cover;
+}
+
+.page-header {
+  padding: 10px;
+  background: #003b3b;
+}
+
+.page-header h1 {
+  text-align: center;
+}
+
+.description {
+  padding: 5px 30px;
+  background-color: rgba(47, 79, 79, 0.8);
+  border-radius: 10px;
+}
+
+div.maze {
+  width: 800px;
+  margin: 50px auto;
+  padding: 20px 0;
+  background: #28513C;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.maze .cell:hover {
+  background-color: steelblue;
+}
+
+.page-footer {
+  padding: 5px;
+  background: #002b2b;
+}
+
+.page-footer a {
+  text-decoration: none;
+  color: white;
+}
+
+.page-footer a:hover {
+  text-decoration: underline;
+  color: yellow;
+}
+
+.layout-positioner {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.copyright {
+  float: left;
+}
+
+.contacts-footer {
+  float: right;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+main h2 {
+  text-align: center;
+}
+
+main p:first-of-type::first-letter {
+  font-size: 50px;
+  float: left;
+  margin-right: 1px;
+}
+
+main p:not(:first-of-type)::first-letter {
+  margin-left: 35px;
+}
