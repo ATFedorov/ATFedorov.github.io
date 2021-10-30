@@ -24,6 +24,23 @@ body main {
   text-align: center;
 }
 
+button.foneMusic {
+  font-family: inherited;
+  margin-left: 20px;
+  float: left;
+  background-color: #cccc00;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+button.foneMusic:hover {
+  background-color: #ffff00;
+}
+
+button.foneMusic:active {
+  background-color: #28513C;
+}
+
 .description {
   padding: 5px 30px;
   background-color: rgba(47, 79, 79, 0.8);

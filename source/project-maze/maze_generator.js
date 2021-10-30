@@ -26,6 +26,9 @@ for (let cell of mazeCells) {
       
       postMessage("Поздравляем! Вам удалось найти кошку, а принцесса сияет от счастья. Все ее 13 кошек теперь в полном порядке :)");
       clearMaze();
+      
+      foneMusic.pause();
+      isPlaying = false;
       sound("level-win");
     } else {
       
