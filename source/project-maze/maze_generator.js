@@ -1,164 +1,40 @@
-let mazeSize = 6;
-let maze = document.querySelector("div.maze");
-let table = document.createElement("div");
+let MAZE_SIZE = 6;
+let stepCounter = 0;
+let INITIAL_PLAYER_POSITION = 0;
 
-table.classList.add("table");
-table.style.display = "table";
-table.style.margin = "0 auto";
-table.style.borderCollapse = "collapse";
-table.style.borderLeft = "10px solid #28813C";
-table.style.borderBottom = "10px solid #28813C";
-table.style.backgroundColor = "lightgray";
+let maze = document.querySelector(".maze");
+let mazeCells = createMaze(MAZE_SIZE);
+initMaze(INITIAL_PLAYER_POSITION, mazeCells);
 
-// Form maze layout:
-for (let r = 0; r < mazeSize; r++) {
-  
-  let row = document.createElement("div");
-  
-  row.classList.add("row");
-  row.style.display = "table-row";
-  
-  for (let c = 0; c < mazeSize; c++) {
-    
-    let cell = document.createElement("div");
-    
-    cell.classList.add("cell");
-    cell.dataset.row = `${r}`;
-    cell.dataset.column = `${c}`;
-    cell.style.textAlign = "center";
-    cell.style.display = "table-cell";
-    cell.style.borderTop = "10px solid #28813C";
-    cell.style.borderRight = "10px solid #28813C";
-    cell.style.width = "70px";
-    cell.style.height = "70px";
-    
-    row.append(cell);
-  }
-  
-  table.append(row);
-}
-
-maze.append(table);
-
-let cells = document.querySelectorAll(".maze .cell");
-
-// Generate maze (simlest one by binary tree):
-for (let r = 0; r < mazeSize; r++) {
-
-  for (let c = 0; c < mazeSize; c++) {
-
-    if (r == 0) {
-      
-      if (c != mazeSize - 1) {
-        cells[r * mazeSize + c].style.borderRight = "";
-      }
-      continue;
-    }
-    
-    if (c == mazeSize - 1) {
-      cells[r * mazeSize + c].style.borderTop = "";
-      continue;
-    }
-    
-    // Toss a coin:
-    let coin = randomIntIn(1, 2);
-    
-    if (coin == 1) {
-      
-      cells[r * mazeSize + c].style.borderTop = "";
-    } else {
-      
-      cells[r * mazeSize + c].style.borderRight = "";
-    }
-  }
-}
-
-// Set start position of player in maze:
-let playerPos = 0;
-cells[playerPos].style.borderTop = "10px solid #28513C";
-cells[playerPos].style.backgroundColor = "darkgray";
-let player = document.createElement("img");
-player.classList.add("player");
-player.src = "files/player1.svg";
-player.width = "60";
-cells[playerPos].append(player);
-
-// Set cat position in maze:
-let catPos = randomIntIn(2 * mazeSize, mazeSize ** 2 - 1);
-let cat = document.createElement("img");
-cat.classList.add("cat");
-cat.src = "files/cat1.svg";
-cat.width = "60";
-cat.style.display = "none";
-cells[catPos].append(cat);
+document.getElementById("level").textContent = "1";
+document.getElementById("stepCounter").textContent = stepCounter;
 
 // Player movement in maze:
-for (let cell of cells) {
+for (let cell of mazeCells) {
   
   cell.onclick = function() {
     let player = document.querySelector(".player");
     let cat = document.querySelector(".cat");
     
-    let rowPrev = +player.parentElement.dataset.row;
-    let colPrev = +player.parentElement.dataset.column;
-    let row = +cell.dataset.row;
-    let col = +cell.dataset.column;
-    
-    let isSameRow = rowPrev == row;
-    let isSameCol = colPrev == col;
-    let isAdjacenByRow = isSameRow && Math.abs(col - colPrev) == 1;
-    let isAdjacenByCol = isSameCol && Math.abs(row - rowPrev) == 1;
-    
-    let isLegalMove = false;
-    let noWallVertical = true;
-    let noWallHorizontal = true;
+    if (player === null || cat === null ) return;
 
-    //Find out whether is there wall on the path:
-    if (isAdjacenByRow) {
-      
-      if (colPrev < col && player.parentElement.style.borderRight !== "") {
-        
-        noWallVertical = false;
-      } else if (col < colPrev && cell.style.borderRight !== "") {
-        
-        noWallVertical = false;
-      }
-    }
+    if (!this.classList.contains("attainable")) return;
     
-    if (isAdjacenByCol) {
-      
-      if (row < rowPrev && player.parentElement.style.borderTop !== "") {
-        
-        noWallHorizontal = false;
-      } else if (rowPrev < row && cell.style.borderTop !== "") {
-        
-        noWallHorizontal = false;
-      }
-    }
-
-    if (isAdjacenByRow && noWallVertical ||
-      isAdjacenByCol && noWallHorizontal) {
-      
-      isLegalMove = true;
-    }
-    
-    if (!isLegalMove) return;
-    
-    cell.style.backgroundColor = "darkgray";
+    document.getElementById("stepCounter").textContent = ++stepCounter;
     
     if (cell.contains(cat)) {
       
-      alert("Поздравляем! Вам удалось найти кошку, а принцесса сияет от счастья. Все ее 13 кошек теперь в полном порядке :)");
-      player.remove();
-      cat.remove();
-      for (let c of cells) c.style.backgroundColor = "lightgray";
-      cells[0].append(cat);
-      cells[1].append(player);
+      postMessage("Поздравляем! Вам удалось найти кошку, а принцесса сияет от счастья. Все ее 13 кошек теперь в полном порядке :)");
+      clearMaze();
     } else {
       
       // Move player on the next cell:
       player.remove();
-      cell.append(player);
+      this.append(player);
+      updateCurrentCell(this);
+      
+      // Assign cells to move into which is legal:
+      updateAttainableCells(this);
       
       // Update cat visibility:
       if ( isVisible(player, cat) ) {
@@ -172,8 +48,138 @@ for (let cell of cells) {
   }
 }
 
+function createMaze(MAZE_SIZE) {
+  let table = document.createElement("div");
+
+  table.classList.add("table");
+  table.style.display = "table";
+  table.style.margin = "0 auto";
+  table.style.borderCollapse = "collapse";
+  table.style.borderLeft = "10px solid #28813C";
+  table.style.borderBottom = "10px solid #28813C";
+  table.style.backgroundColor = "lightgray";
+  
+  // Form maze layout:
+  for (let r = 0; r < MAZE_SIZE; r++) {
+    
+    let row = document.createElement("div");
+    
+    row.classList.add("row");
+    row.style.display = "table-row";
+    
+    for (let c = 0; c < MAZE_SIZE; c++) {
+      
+      let cell = document.createElement("div");
+      
+      cell.classList.add("cell");
+      cell.dataset.row = `${r}`;
+      cell.dataset.column = `${c}`;
+      cell.style.textAlign = "center";
+      cell.style.display = "table-cell";
+      cell.style.borderTop = "10px solid #28813C";
+      cell.style.borderRight = "10px solid #28813C";
+      cell.style.width = "70px";
+      cell.style.height = "70px";
+      
+      row.append(cell);
+    }
+    
+    table.append(row);
+  }
+
+  maze.append(table);
+
+  let cells = document.querySelectorAll(".maze .cell");
+
+  // Generate maze (simlest one by binary tree):
+  for (let r = 0; r < MAZE_SIZE; r++) {
+
+    for (let c = 0; c < MAZE_SIZE; c++) {
+
+      if (r == 0) {
+        
+        if (c != MAZE_SIZE - 1) {
+          cells[r * MAZE_SIZE + c].style.borderRight = "";
+        }
+        continue;
+      }
+      
+      if (c == MAZE_SIZE - 1) {
+        cells[r * MAZE_SIZE + c].style.borderTop = "";
+        continue;
+      }
+      
+      // Toss a coin:
+      let coin = randomIntIn(1, 2);
+      
+      if (coin == 1) {
+        
+        cells[r * MAZE_SIZE + c].style.borderTop = "";
+      } else {
+        
+        cells[r * MAZE_SIZE + c].style.borderRight = "";
+      }
+    }
+  }
+  
+  return cells;
+}
+
+// @param start - initial player position
+function initMaze(start, mazeCells) {
+  // Add player into start position in maze:
+  let player = document.createElement("img");
+  player.classList.add("player");
+  player.src = "files/player1.svg";
+  player.width = "60";
+  mazeCells[start].classList.add("current");
+  mazeCells[start].append(player);
+  updateAttainableCells(mazeCells[start]);
+
+  // Set cat position in maze:
+  let catPos = randomIntIn(2 * MAZE_SIZE, MAZE_SIZE ** 2 - 1);
+  let cat = document.createElement("img");
+  cat.classList.add("cat");
+  cat.src = "files/cat1.svg";
+  cat.width = "60";
+  cat.style.display = "none";
+  mazeCells[catPos].append(cat);
+}
+
 function randomIntIn(lower, upper) {
   return Math.floor(lower + (upper + 1 - lower) * Math.random());
+}
+
+// Return cell left from the given cell in a maze:
+function getCellLeft(cell) {
+  let row = +cell.dataset.row;
+  let col = +cell.dataset.column;
+  
+  return document.querySelector(`.cell[data-row="${row}"][data-column="${col - 1}"]`);
+}
+
+// Return cell right from the given cell in a maze:
+function getCellRight(cell) {
+  let row = +cell.dataset.row;
+  let col = +cell.dataset.column;
+  
+  return document.querySelector(`.cell[data-row="${row}"][data-column="${col + 1}"]`);
+}
+
+// Return cell above the given cell in a maze:
+function getCellAbove(cell) {
+  let row = +cell.dataset.row;
+  let col = +cell.dataset.column;
+  
+  return document.querySelector(`.cell[data-row="${row - 1}"][data-column="${col}"]`);
+}
+
+// Return cell below the given cell in a maze:
+function getCellBelow(cell) {
+  let row = +cell.dataset.row;
+  let col = +cell.dataset.column;
+  
+  return document.querySelector(`.cell[data-row="${row + 1}"][data-column="${col}"]`);
 }
 
 function isVisible(player, cat) {
@@ -225,10 +231,62 @@ function isVisible(player, cat) {
   return false;
 }
 
-// Return cell above the given cell in table:
-function getCellAbove(cell) {
-  let row = cell.dataset.row;
-  let col = cell.dataset.column;
+function updateAttainableCells(cell) {
+  // Find previous attainable cells:
+  let prevCells = document.querySelectorAll(".attainable");
   
-  return document.querySelector(`.cell[data-row="${row - 1}"][data-column="${col}"]`);
+  for (let cell of prevCells) {
+    
+    cell.classList.remove("attainable");
+  }
+  
+  // Determine cells to move into which is legal:
+  let leftCell = getCellLeft(cell);
+  let rightCell = getCellRight(cell);
+  let topCell = getCellAbove(cell);
+  let bottomCell = getCellBelow(cell);
+  
+  if (leftCell !== null && !leftCell.style.borderRight) {
+    
+    leftCell.classList.add("attainable");
+  }
+  if (rightCell !== null && !cell.style.borderRight) {
+    
+    rightCell.classList.add("attainable");
+  }
+  if (topCell !== null && !cell.style.borderTop) {
+    
+    topCell.classList.add("attainable");
+  }
+  if (bottomCell !== null && !bottomCell.style.borderTop) {
+    
+    bottomCell.classList.add("attainable");
+  }
+}
+
+function updateCurrentCell(cell) {
+  let prevCell = document.querySelector(".current");
+  prevCell.classList.remove("current");
+  
+  cell.classList.add("current");
+}
+
+function clearMaze() {
+  let player = document.querySelector(".player");
+  let cat = document.querySelector(".cat");
+  let current = document.querySelector(".current");
+  let attainables = document.querySelectorAll(".attainable");
+  
+  player.remove();
+  cat.remove();
+  current.classList.remove("current");
+  for (let cell of attainables) cell.classList.remove("attainable");
+}
+
+function postMessage(message) {
+  let console = document.querySelector(".console");
+  let p = document.createElement("p");
+  
+  p.textContent = "> " + message;
+  console.append(p);
 }

@@ -40,7 +40,15 @@ div.maze {
 }
 
 .maze .cell:hover {
-  background-color: steelblue;
+  background-color: RosyBrown;
+}
+
+.maze .cell.attainable:hover {
+  background: steelblue;
+}
+
+.maze .cell.current:hover {
+  background-color: gray;
 }
 
 .page-footer {
@@ -81,12 +89,47 @@ main h2 {
   text-align: center;
 }
 
-main p:first-of-type::first-letter {
+.description p:first-of-type::first-letter {
   font-size: 50px;
   float: left;
   margin-right: 1px;
 }
 
-main p:not(:first-of-type)::first-letter {
+.description p:not(:first-of-type)::first-letter {
   margin-left: 35px;
+}
+
+.maze .console {
+  color: gray;
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.console p {
+  margin: 0;
+  margin-left: 20px;
+  margin-right: 10px;
+}
+
+.console p:last-child {
+  color: yellow;
+}
+
+.stats {
+  padding-left: 10px;
+  margin-top: 50px;
+  margin-right: 20px;
+  width: 220px;
+  float: right;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+
+.stats h3 {
+  text-align: center;
+}
+
+.stats output {
+  color: yellow;
+  font-size: 1.5em;
 }
