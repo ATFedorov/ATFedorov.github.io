@@ -26,6 +26,7 @@ for (let cell of mazeCells) {
       
       postMessage("Поздравляем! Вам удалось найти кошку, а принцесса сияет от счастья. Все ее 13 кошек теперь в полном порядке :)");
       clearMaze();
+      sound("level-win");
     } else {
       
       // Move player on the next cell:
@@ -33,13 +34,19 @@ for (let cell of mazeCells) {
       this.append(player);
       updateCurrentCell(this);
       
+      // Play sound of one step:
+      sound("footstep");
+      
       // Assign cells to move into which is legal:
       updateAttainableCells(this);
       
       // Update cat visibility:
       if ( isVisible(player, cat) ) {
         
-        cat.style.display = "block";
+        if (cat.style.display == "none") {
+          sound("meow");
+          cat.style.display = "block";
+        }
       } else {
         
         cat.style.display = "none";
@@ -289,4 +296,10 @@ function postMessage(message) {
   
   p.textContent = "> " + message;
   console.append(p);
+}
+
+function sound(fileName) {
+  let sound = new Audio();
+  sound.src = `files/${fileName}.mp3`; 
+  sound.autoplay = true;
 }
