@@ -29,7 +29,7 @@ for (let cell of mazeCells) {
       
       foneMusic.pause();
       isPlaying = false;
-      sound("level-win");
+      sound("game-won");
     } else {
       
       // Move player on the next cell:

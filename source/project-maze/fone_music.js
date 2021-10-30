@@ -2,6 +2,7 @@ let foneMusicButton = document.querySelector("button.foneMusic");
 let isPlaying = false;
 let foneMusic = new Audio();
 foneMusic.src = `files/fone-music.mp3`;
+foneMusic.volume = 0.5;
 foneMusic.loop = true;
 
 foneMusicButton.onclick = function() {
