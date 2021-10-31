@@ -24,20 +24,21 @@ body main {
   text-align: center;
 }
 
-button.foneMusic {
+button.fone-music {
   font-family: inherited;
   margin-left: 20px;
   float: left;
-  background-color: #cccc00;
+  background-color: yellow;
   padding: 10px;
   border-radius: 5px;
 }
 
-button.foneMusic:hover {
-  background-color: #ffff00;
+button.fone-music:hover {
+  background-color: gold;
+  cursor: pointer;
 }
 
-button.foneMusic:active {
+button.fone-music:active {
   background-color: #28513C;
 }
 
@@ -47,7 +48,7 @@ button.foneMusic:active {
   border-radius: 10px;
 }
 
-div.maze {
+div.maze-wrapper {
   width: 800px;
   margin: 50px auto;
   padding: 20px 0;
@@ -56,15 +57,15 @@ div.maze {
   border-radius: 10px;
 }
 
-.maze .cell:hover {
+.maze-cell:hover {
   background-color: RosyBrown;
 }
 
-.maze .cell.attainable:hover {
+.maze-cell.attainable:hover {
   background: steelblue;
 }
 
-.maze .cell.current:hover {
+.maze-cell.current:hover {
   background-color: gray;
 }
 
@@ -116,14 +117,14 @@ main h2 {
   margin-left: 35px;
 }
 
-.maze .console {
+.maze-wrapper .console {
   color: gray;
   margin-bottom: 20px;
   background-color: rgba(0, 0, 0, 0.4);
 }
 
 .console p {
-  margin: 0;
+  margin: 0px;
   margin-left: 20px;
   margin-right: 10px;
 }
@@ -149,4 +150,27 @@ main h2 {
 .stats output {
   color: yellow;
   font-size: 1.5em;
+}
+
+div.menu {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+button.menu-option {
+  padding: 5px 20px;
+  font-family: inherited;
+  font-size: 1em;
+  border-radius: 10px;
+  background-color: yellow;
+}
+
+button.menu-option:hover {
+  background-color: gold;
+  cursor: pointer;
+}
+
+button.menu-option.next-level {
+  display: none;
 }

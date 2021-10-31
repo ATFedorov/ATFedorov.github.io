@@ -1,4 +1,4 @@
-let foneMusicButton = document.querySelector("button.foneMusic");
+let foneMusicButton = document.querySelector("button.fone-music");
 let isPlaying = false;
 let foneMusic = new Audio();
 foneMusic.src = `files/fone-music.mp3`;
