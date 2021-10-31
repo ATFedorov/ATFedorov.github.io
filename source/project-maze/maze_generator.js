@@ -18,6 +18,9 @@ newGameButton.onclick = function() {
   
   this.style.display = "none"; // Hide the new game button
   postMessage("Найдите в лабиринте кошку");
+  
+  foneMusic.play();
+  isPlaying = true;
 }
 
 // Create next game level:
@@ -33,6 +36,10 @@ nextLevelButton.onclick = function() {
   
   this.style.display = "none"; // Hide the next game button
   postMessage("Ой, похоже у нас снова кошка пропала. Нет, на этот раз другая... Как здорово, что у Вас уже есть опыт в подобных делах, мы на Вас очень рассчитываем!");
+  
+  if (isPlaying) {
+    foneMusic.play();
+  }
 }
 
 // Cell procedure for maze cell:
@@ -52,7 +59,6 @@ function cellProc() {
     clearMaze();
     
     foneMusic.pause();
-    isPlaying = false;
     sound("game-won");
     nextLevelButton.style.display = "block"; // Show next level button
   } else {
@@ -368,9 +374,9 @@ function getMazeCellDim(mazeSize) {
 }
 
 function getImgDim(mazeSize) {
-  return Math.floor( 0.85 * getMazeCellDim(mazeSize) );
+  return Math.floor( 0.80 * getMazeCellDim(mazeSize) );
 }
 
 function getBorderDim(mazeSize) {
-  return Math.floor( 0.15 * getMazeCellDim(mazeSize) );
+  return Math.floor( 0.10 * getMazeCellDim(mazeSize) );
 }
