@@ -1,121 +1,144 @@
-let MAZE_SIZE = 6;
-let stepCounter = 0;
 let INITIAL_PLAYER_POSITION = 0;
+let MAZE_DIM = 600; // px
+let mazeSize = 4;
+let levelCounter = 0;
+let stepCounter = 0;
 
-let maze = document.querySelector(".maze");
-let mazeCells = createMaze(MAZE_SIZE);
-initMaze(INITIAL_PLAYER_POSITION, mazeCells);
+let newGameButton = document.querySelector(".menu button.menu-option.new-game");
+let nextLevelButton = document.querySelector(".menu button.menu-option.next-level");
+let levelOutput = document.getElementById("level");
+let stepsOutput = document.getElementById("stepCounter");
 
-document.getElementById("level").textContent = "1";
-document.getElementById("stepCounter").textContent = stepCounter;
-
-// Player movement in maze:
-for (let cell of mazeCells) {
+// Game entry point:
+newGameButton.onclick = function() {
+  let mazeWrapper = document.querySelector(".maze-wrapper");
+  mazeWrapper.append(createMaze(mazeSize));
+  initMaze(mazeSize, INITIAL_PLAYER_POSITION);
+  updateStats();
   
-  cell.onclick = function() {
-    let player = document.querySelector(".player");
-    let cat = document.querySelector(".cat");
-    
-    if (player === null || cat === null ) return;
+  this.style.display = "none"; // Hide the new game button
+  postMessage("Найдите в лабиринте кошку");
+}
 
-    if (!this.classList.contains("attainable")) return;
+// Create next game level:
+nextLevelButton.onclick = function() {
+  flushConsole();
+  dropMaze();
+  mazeSize++;
+  
+  let mazeWrapper = document.querySelector(".maze-wrapper");
+  mazeWrapper.append(createMaze(mazeSize));
+  initMaze(mazeSize, INITIAL_PLAYER_POSITION);
+  updateStats();
+  
+  this.style.display = "none"; // Hide the next game button
+  postMessage("Ой, похоже у нас снова кошка пропала. Нет, на этот раз другая... Как здорово, что у Вас уже есть опыт в подобных делах, мы на Вас очень рассчитываем!");
+}
+
+// Cell procedure for maze cell:
+function cellProc() {
+  let player = document.querySelector(".player");
+  let cat = document.querySelector(".cat");
+  
+  if ( player === null || cat === null ) return;
+
+  if ( !this.classList.contains("attainable") ) return;
+
+  document.getElementById("stepCounter").textContent = ++stepCounter;
+
+  if ( this.contains(cat) ) {
     
-    document.getElementById("stepCounter").textContent = ++stepCounter;
+    postMessage("Отлично сработано! Принцесса очень довольна Вашей работой :3");
+    clearMaze();
     
-    if (cell.contains(cat)) {
+    foneMusic.pause();
+    isPlaying = false;
+    sound("game-won");
+    nextLevelButton.style.display = "block"; // Show next level button
+  } else {
+    
+    // Move player on the next cell:
+    player.remove();
+    this.append(player);
+    updateCurrentCell(this);
+    
+    // Play sound of one step:
+    sound("footstep");
+    
+    // Assign cells to move into which is legal:
+    updateAttainableCells(this);
+    
+    // Update cat visibility:
+    if ( isVisible(player, cat) ) {
       
-      postMessage("Поздравляем! Вам удалось найти кошку, а принцесса сияет от счастья. Все ее 13 кошек теперь в полном порядке :)");
-      clearMaze();
-      
-      foneMusic.pause();
-      isPlaying = false;
-      sound("game-won");
+      if ( cat.style.display == "none" ) {
+        
+        sound("meow");
+        cat.style.display = "block";
+      }
     } else {
       
-      // Move player on the next cell:
-      player.remove();
-      this.append(player);
-      updateCurrentCell(this);
-      
-      // Play sound of one step:
-      sound("footstep");
-      
-      // Assign cells to move into which is legal:
-      updateAttainableCells(this);
-      
-      // Update cat visibility:
-      if ( isVisible(player, cat) ) {
-        
-        if (cat.style.display == "none") {
-          sound("meow");
-          cat.style.display = "block";
-        }
-      } else {
-        
-        cat.style.display = "none";
-      }
+      cat.style.display = "none";
     }
   }
 }
 
-function createMaze(MAZE_SIZE) {
-  let table = document.createElement("div");
-
-  table.classList.add("table");
-  table.style.display = "table";
-  table.style.margin = "0 auto";
-  table.style.borderCollapse = "collapse";
-  table.style.borderLeft = "10px solid #28813C";
-  table.style.borderBottom = "10px solid #28813C";
-  table.style.backgroundColor = "lightgray";
+function createMaze(mazeSize) {
+  let maze = document.createElement("div");
+  let mazeCells = [];
+  
+  maze.classList.add("maze");
+  maze.style.display = "table";
+  maze.style.margin = "0 auto";
+  maze.style.borderCollapse = "collapse";
+  maze.style.borderLeft = `${getBorderDim(mazeSize)}px solid #28813C`;
+  maze.style.borderBottom = `${getBorderDim(mazeSize)}px solid #28813C`;
+  maze.style.backgroundColor = "lightgray";
   
   // Form maze layout:
-  for (let r = 0; r < MAZE_SIZE; r++) {
+  for (let r = 0; r < mazeSize; r++) {
     
-    let row = document.createElement("div");
+    let mazeRow = document.createElement("div");
     
-    row.classList.add("row");
-    row.style.display = "table-row";
+    mazeRow.classList.add("maze-row");
+    mazeRow.style.display = "table-row";
     
-    for (let c = 0; c < MAZE_SIZE; c++) {
+    for (let c = 0; c < mazeSize; c++) {
       
-      let cell = document.createElement("div");
+      let mazeCell = document.createElement("div");
       
-      cell.classList.add("cell");
-      cell.dataset.row = `${r}`;
-      cell.dataset.column = `${c}`;
-      cell.style.textAlign = "center";
-      cell.style.display = "table-cell";
-      cell.style.borderTop = "10px solid #28813C";
-      cell.style.borderRight = "10px solid #28813C";
-      cell.style.width = "70px";
-      cell.style.height = "70px";
+      mazeCell.classList.add("maze-cell");
+      mazeCell.style.display = "table-cell";
+      mazeCell.dataset.row = `${r}`;
+      mazeCell.dataset.column = `${c}`;
+      mazeCell.style.textAlign = "center";
+      mazeCell.style.borderTop = `${getBorderDim(mazeSize)}px solid #28813C`;
+      mazeCell.style.borderRight = `${getBorderDim(mazeSize)}px solid #28813C`;
+      mazeCell.style.width = `${getMazeCellDim(mazeSize)}px`;
+      mazeCell.style.height = `${getMazeCellDim(mazeSize)}px`;
       
-      row.append(cell);
+      mazeRow.append(mazeCell);
+      mazeCells.push(mazeCell);
     }
     
-    table.append(row);
+    maze.append(mazeRow);
   }
 
-  maze.append(table);
-
-  let cells = document.querySelectorAll(".maze .cell");
-
   // Generate maze (simlest one by binary tree):
-  for (let r = 0; r < MAZE_SIZE; r++) {
+  for (let r = 0; r < mazeSize; r++) {
 
-    for (let c = 0; c < MAZE_SIZE; c++) {
+    for (let c = 0; c < mazeSize; c++) {
 
       if (r == 0) {
         
-        if (c != MAZE_SIZE - 1) {
-          cells[r * MAZE_SIZE + c].style.borderRight = "";
+        if (c != mazeSize - 1) {
+          mazeCells[r * mazeSize + c].style.borderRight = "";
         }
         continue;
       }
       
-      if (c == MAZE_SIZE - 1) {
-        cells[r * MAZE_SIZE + c].style.borderTop = "";
+      if (c == mazeSize - 1) {
+        mazeCells[r * mazeSize + c].style.borderTop = "";
         continue;
       }
       
@@ -124,36 +147,44 @@ function createMaze(MAZE_SIZE) {
       
       if (coin == 1) {
         
-        cells[r * MAZE_SIZE + c].style.borderTop = "";
+        mazeCells[r * mazeSize + c].style.borderTop = "";
       } else {
         
-        cells[r * MAZE_SIZE + c].style.borderRight = "";
+        mazeCells[r * mazeSize + c].style.borderRight = "";
       }
     }
   }
   
-  return cells;
+  return maze;
 }
 
 // @param start - initial player position
-function initMaze(start, mazeCells) {
+function initMaze(mazeSize, start) {
+  let mazeCells = document.querySelectorAll(".maze-cell");
+  
   // Add player into start position in maze:
   let player = document.createElement("img");
   player.classList.add("player");
   player.src = "files/player1.svg";
-  player.width = "60";
+  player.width = `${getImgDim(mazeSize)}`;
   mazeCells[start].classList.add("current");
   mazeCells[start].append(player);
   updateAttainableCells(mazeCells[start]);
 
   // Set cat position in maze:
-  let catPos = randomIntIn(2 * MAZE_SIZE, MAZE_SIZE ** 2 - 1);
+  let catPos = randomIntIn(2 * mazeSize, mazeSize ** 2 - 1);
   let cat = document.createElement("img");
   cat.classList.add("cat");
   cat.src = "files/cat1.svg";
-  cat.width = "60";
+  cat.width = `${getImgDim(mazeSize)}`;
   cat.style.display = "none";
   mazeCells[catPos].append(cat);
+  
+  // Assign cell procedure for maze cells:
+  for (let cell of mazeCells) {
+    
+    cell.onclick = cellProc;
+  }
 }
 
 function randomIntIn(lower, upper) {
@@ -165,7 +196,7 @@ function getCellLeft(cell) {
   let row = +cell.dataset.row;
   let col = +cell.dataset.column;
   
-  return document.querySelector(`.cell[data-row="${row}"][data-column="${col - 1}"]`);
+  return document.querySelector(`.maze-cell[data-row="${row}"][data-column="${col - 1}"]`);
 }
 
 // Return cell right from the given cell in a maze:
@@ -173,7 +204,7 @@ function getCellRight(cell) {
   let row = +cell.dataset.row;
   let col = +cell.dataset.column;
   
-  return document.querySelector(`.cell[data-row="${row}"][data-column="${col + 1}"]`);
+  return document.querySelector(`.maze-cell[data-row="${row}"][data-column="${col + 1}"]`);
 }
 
 // Return cell above the given cell in a maze:
@@ -181,7 +212,7 @@ function getCellAbove(cell) {
   let row = +cell.dataset.row;
   let col = +cell.dataset.column;
   
-  return document.querySelector(`.cell[data-row="${row - 1}"][data-column="${col}"]`);
+  return document.querySelector(`.maze-cell[data-row="${row - 1}"][data-column="${col}"]`);
 }
 
 // Return cell below the given cell in a maze:
@@ -189,7 +220,7 @@ function getCellBelow(cell) {
   let row = +cell.dataset.row;
   let col = +cell.dataset.column;
   
-  return document.querySelector(`.cell[data-row="${row + 1}"][data-column="${col}"]`);
+  return document.querySelector(`.maze-cell[data-row="${row + 1}"][data-column="${col}"]`);
 }
 
 function isVisible(player, cat) {
@@ -293,9 +324,16 @@ function clearMaze() {
   for (let cell of attainables) cell.classList.remove("attainable");
 }
 
+function dropMaze() {
+  let maze = document.querySelector(".maze");
+  maze.remove();
+}
+
+// Post message into game console:
 function postMessage(message) {
   let console = document.querySelector(".console");
   let p = document.createElement("p");
+  p.classList.add("console-message");
   
   p.textContent = "> " + message;
   console.append(p);
@@ -305,4 +343,34 @@ function sound(fileName) {
   let sound = new Audio();
   sound.src = `files/${fileName}.mp3`; 
   sound.autoplay = true;
+}
+
+// Remove all messages from game console:
+function flushConsole() {
+  let messages = document.querySelectorAll(".console-message");
+  
+  for (let message of messages) {
+    message.remove();
+  }
+}
+
+// Update statictics for the level:
+function updateStats() {
+  levelCounter++;
+  stepCounter = 0;
+  
+  levelOutput.textContent = levelCounter;
+  stepsOutput.textContent = stepCounter;
+}
+
+function getMazeCellDim(mazeSize) {
+  return Math.min( Math.floor( MAZE_DIM / mazeSize ), 100 );
+}
+
+function getImgDim(mazeSize) {
+  return Math.floor( 0.85 * getMazeCellDim(mazeSize) );
+}
+
+function getBorderDim(mazeSize) {
+  return Math.floor( 0.15 * getMazeCellDim(mazeSize) );
 }
