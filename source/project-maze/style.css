@@ -57,6 +57,16 @@ div.maze-wrapper {
   border-radius: 10px;
 }
 
+.maze-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.maze-cell img {
+  margin: 0 auto;
+}
+
+
 .maze-cell:hover {
   background-color: RosyBrown;
 }
@@ -173,4 +183,51 @@ button.menu-option:hover {
 
 button.menu-option.next-level {
   display: none;
+}
+
+.avatars-list {
+  margin-bottom: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 130px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  background-color: gray;
+  border: 3px solid green;
+  border-radius: 5px;
+}
+
+.avatar:hover {
+  cursor: pointer;
+  border: 3px solid lightgreen;
+  background-color: #b0b0b0;
+}
+
+.avatar.selected {
+  width: 120px;
+  height: 150px;
+  border: 4px solid gold;
+  background-color: steelblue;
+}
+
+.avatar img {
+  width: 100px;
+}
+
+.avatar:hover img {
+  width: 120px;
+}
+
+.avatar.selected img {
+  width: 120px;
 }

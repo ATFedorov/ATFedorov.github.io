@@ -23,7 +23,7 @@
           <p>Вам поручили приняться за поиск пропавшей кошки. Чтобы вы не заблудились в лабиринте, принцесса передала вам волшебный клубочек с нитью, который всегда выведет обратно.</p>
         </div>
       </div>
-       <aside class="stats">
+      <aside class="stats">
         <h3>Статистика</h3>
         <p>Уровень: <b><output id="level"></output></b><p>
         <p>Пройдено шагов: <b><output id="stepCounter"></output></b></p>
@@ -31,12 +31,26 @@
       <button class="fone-music"><img src="files/notes.svg" height="17" style="vertical-align: top;"><b> ФОНОВАЯ МУЗЫКА</b></button>
       <div class="layout-positioner">
         <div class="maze-wrapper">
+          <div class="avatars-list">
+            <!-- <div class="avatar"><img src="files/player6.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player1.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player2.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player5.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player9.png" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player8.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player10.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player4.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player3.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player7.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player11.svg" width="100"></div> -->
+            <!-- <div class="avatar"><img src="files/player12.svg" width="100"></div> -->
+          </div>
           <div class="menu">
             <button class="menu-option new-game">Новая игра</button>
             <button class="menu-option next-level">Следующий уровень</button>
           </div>
           <div class="console">
-            <p class="console-message">&gt; Нажмите на кнопку выше, чтобы начать поиски :3</p>
+            <p class="console-message">&gt; Выберите персонажа и нажмите на кнопку выше, чтобы начать поиски :3</p>
           </div>
         </div>
       </div>
@@ -47,7 +61,10 @@
         <p class="contacts-footer"><a href="mailto:atfedorov1990@mail.ru">atfedorov1990@mail.ru</a></p>
       </div>
     </footer>
-    <script src="fone_music.js"></script>
+    <script src="generator.js"></script>
+    <script src="sounds.js"></script>
+    <script src="avatar_selector.js"></script>
     <script src="maze_generator.js"></script>
+    <script src="creatures.js"></script>
   </body>
 </html>
