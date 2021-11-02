@@ -57,18 +57,16 @@ soundClick.src = "files/click.mp3";
 
 foneMusicButton.onclick = function() {
   
-  console.log(`previuos: ${pressedFoneMusicButton}`);
   if (pressedFoneMusicButton) {
     
     pressedFoneMusicButton = false;
-    stopMusic(pressedFoneMusicButton);
+    stopMusic();
   } else {
     
     pressedFoneMusicButton = true;
     resumeMusic("fone");
   }
   
-  console.log(`switched: ${pressedFoneMusicButton}`);
   soundClick.play();
 }
 
