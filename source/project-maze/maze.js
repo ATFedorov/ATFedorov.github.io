@@ -20,6 +20,7 @@ newGameButton.onclick = function() {
   // Update creatures visibility:
   updateVisibility();
   showCreatures();
+  giveVoices();
   resumeMusic();
   
   avatarsList.style.display = "none";
@@ -42,6 +43,7 @@ nextLevelButton.onclick = function() {
   // Update creatures visibility:
   updateVisibility();
   showCreatures();
+  giveVoices();
   resumeMusic();
   
   this.style.display = "none"; // Hide the next game button
@@ -75,7 +77,7 @@ function cellProc() {
   }
   
   // Croll to the new player position:
-  scrollByCell(this);
+  // scrollByCell(this);
   
   // Move player to the next cell:
   movePlayer(this);
@@ -220,55 +222,6 @@ function getCellBelow(cell) {
   return document.querySelector(`.maze-cell[data-row="${row + 1}"][data-column="${col}"]`);
 }
 
-// function isVisible(player, creature) {
-  // let leftCell, rightCell, topCell, bottomCell;
-  
-  // if (+player.parentElement.dataset.column < +creature.parentElement.dataset.column) {
-    
-    // leftCell = player.parentElement;
-    // rightCell = creature.parentElement;
-  // } else {
-    
-    // leftCell = creature.parentElement;
-    // rightCell = player.parentElement;
-  // }
-  
-  // if (+player.parentElement.dataset.row < +creature.parentElement.dataset.row) {
-    
-    // topCell = player.parentElement;
-    // bottomCell = creature.parentElement;
-  // } else {
-    
-    // topCell = creature.parentElement;
-    // bottomCell = player.parentElement;
-  // }
-  
-  // let onTheSameRow = +leftCell.dataset.row == +rightCell.dataset.row;
-  // let onTheSameCol = +bottomCell.dataset.column == +topCell.dataset.column;
-  
-  // if (onTheSameRow) {
-    
-    // for (let cell = leftCell; cell !== rightCell; cell = cell.nextSibling) {
-      
-      // if (cell.style.borderRight !== "") return false;
-    // }
-
-    // return true;
-  // }
-  
-  // if (onTheSameCol) {
-    
-    // for (let cell = bottomCell; cell !== topCell; cell = getCellAbove(cell)) {
-      
-      // if (cell.style.borderTop !== "") return false;
-    // }
-
-    // return true;
-  // }
-  
-  // return false;
-// }
-
 // Update cells to move into which is legal for player:
 function updateAttainableCells(cell) {
   // Find previous attainable cells:
@@ -322,6 +275,7 @@ function movePlayer(cell) {
   // Update creatures visibility:
   updateVisibility();
   showCreatures();
+  giveVoices();
   resumeMusic();
   
   // Play sound of one step:
@@ -383,43 +337,6 @@ function getImgDim(mazeSize) {
 function getBorderDim(mazeSize) {
   return Math.floor( 0.1 * getMazeCellDim(mazeSize) );
 }
-
-// Update creatures visibility:
-// function updateVisibility() {
-  
-  // let player = document.querySelector(".player");
-  // let cat = document.querySelector(".cat");
-  // let enemies = document.querySelectorAll(".enemy");
-  // let nEnemies = enemies.length;
-  
-    // if ( isVisible(player, cat) ) {
-      
-      // if ( cat.style.display == "none" ) {
-        
-        // Sounds["meow"].play();
-        // cat.style.display = "block";
-      // }
-    // } else {
-      
-      // cat.style.display = "none";
-    // }
-    
-    // for (let i = 0; i < nEnemies; i++) {
-      
-      // if ( isVisible(player, enemies[i]) ) {
-        
-        // if ( enemies[i].style.display == "none" ) {
-          
-          // resumeMusic("battle");
-          // libEnemies[enemies[i].dataset.id].voice.play();
-          // enemies[i].style.display = "block";
-        // }
-      // } else {
-        
-        // enemies[i].style.display = "none";
-      // }
-    // }
-// }
 
 // End current game level:
 function levelUp() {

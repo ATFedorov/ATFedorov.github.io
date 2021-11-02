@@ -36,7 +36,7 @@ function initSound(libSound) {
 }
 
 let foneMusicButton = document.querySelector("button.fone-music");
-let pressedFoneMusicButton = false;
+let pressedFoneMusicButton = true;
 
 let musicFone = new Audio();
 musicFone.src = `files/fone_music3.mp3`;
@@ -102,5 +102,30 @@ function resumeMusic() {
     
     musicBattle.play();
     break;
+  }
+}
+
+// Visible creature give its voice:
+function giveVoice(cellEnemy) {
+  
+  let enemy = libEnemies[cellEnemy.dataset.id];
+  
+  if (cellEnemy.dataset.giveVoice) {
+    
+    enemy.voice.play();
+    cellEnemy.dataset.giveVoice = null;
+  }
+}
+
+// Visible creatures give there voices:
+function giveVoices() {
+  
+  let visibleCat = document.querySelector('.creature.visible[data-type="cat"]');
+  let visibleEnemies = document.querySelectorAll('.creature.visible[data-type="enemy"]');
+  
+  if (visibleCat?.dataset.giveVoice) Sounds["meow"].play();
+  
+  for (let enemy of visibleEnemies ) {
+    giveVoice(enemy);
   }
 }

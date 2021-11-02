@@ -65,7 +65,10 @@ function showCreatures() {
   // Show creatures:
   for (let creature of visibleCreatures) {
     
+    if (creature.firstChild.style.display == "block") continue;
+    
     creature.firstChild.style.display = "block";
+    creature.dataset.giveVoice = "true";
   }
 }
 
