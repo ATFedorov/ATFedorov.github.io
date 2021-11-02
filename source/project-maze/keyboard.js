@@ -5,7 +5,7 @@ function arrowKeyProc(event) {
   // Forbid cheating on repeated using of key:
   if (event.repeat) return;
   
-  let currentCell = document.querySelector(".maze-cell.current");
+  let currentCell = document.querySelector(".maze-cell.player");
   let nextCell = null;
   
   switch (event.key) {

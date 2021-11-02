@@ -84,10 +84,11 @@ function stopMusic() {
   musicBattle.pause();
 }
 
-function resumeMusic(theme) {
+function resumeMusic() {
   
   if (!pressedFoneMusicButton) return;
   
+  theme = (countEnemies() > 0) ? "battle" : "fone";
   stopMusic();
   
   switch (theme) {
@@ -98,7 +99,7 @@ function resumeMusic(theme) {
     break;
   
   case "battle":
-  
+    
     musicBattle.play();
     break;
   }

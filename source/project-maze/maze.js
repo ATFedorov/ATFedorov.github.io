@@ -17,9 +17,10 @@ newGameButton.onclick = function() {
   mazeWrapper.append(createMaze(mazeSize));
   updateStats(); // Do not enterchange this and the next lines! (initMaze use updated levelCounter)
   initMaze(mazeSize, INITIAL_PLAYER_POSITION);
-  resumeMusic("fone");
   // Update creatures visibility:
   updateVisibility();
+  showCreatures();
+  resumeMusic();
   
   avatarsList.style.display = "none";
   this.style.display = "none"; // Hide the new game button
@@ -38,9 +39,10 @@ nextLevelButton.onclick = function() {
   mazeWrapper.append(createMaze(mazeSize));
   updateStats(); // Do not enterchange this and the next lines! (initMaze use updated levelCounter)
   initMaze(mazeSize, INITIAL_PLAYER_POSITION);
-  resumeMusic("fone");
   // Update creatures visibility:
   updateVisibility();
+  showCreatures();
+  resumeMusic();
   
   this.style.display = "none"; // Hide the next game button
   postMessage("Ой, похоже у нас снова кошка пропала. Нет, на этот раз другая... Как здорово, что у Вас уже есть опыт в подобных делах, мы на Вас очень рассчитываем!");
@@ -52,63 +54,31 @@ nextLevelButton.onclick = function() {
 function cellProc() {
   
   if ( !this.classList.contains("attainable") ) return;
-  
-  let player = document.querySelector(".player");
 
-  if ( this.firstChild?.classList.contains("cat") ) {
+  if ( this.classList.contains("creature") ) {
     
-    postMessage("Отлично сработано! Принцесса очень довольна Вашей работой :3");
-    clearMaze();
-    
-    stopMusic();
-    soundWin.play();
-    nextLevelButton.style.display = "block"; // Show next level button
-    scrollToMaze();
-    document.removeEventListener("keydown", arrowKeyProc);
-    document.addEventListener("keydown", enterKeyProc);
-  } else if ( this.firstChild?.classList.contains("enemy") ) {
-    
-    sound("punch");
-    this.firstChild.remove();
-    
-    resumeMusic("fone");
-    updateVisibility();
-    
-    this.style.background = 'url("files/blood.png") no-repeat center';
-    this.style.backgroundSize = `${getMazeCellDim(mazeSize)}px ${getMazeCellDim(mazeSize)}px`;
-  } else {
-    
-    // Scroll page for better experience:
-    switch(player.parentElement) {
+    switch(this.dataset.type) {
+    case "cat":
       
-    case getCellBelow(this):
-    
-      scrollUp();
-      break;
+      saveCreature(this);
+      levelUp();
       
-    case getCellAbove(this):
+      return;
+      
+    case "enemy":
+      
+      killCreature(this);
     
-      scrollDown();
-      break;
+      return;
+    
     }
-    
-    // Move player on the next cell:
-    player.remove();
-    this.append(player);
-    updateCurrentCell(this);
-    
-    // Play sound of one step:
-    sound("footstep");
-    
-    // Assign cells to move into which is legal:
-    updateAttainableCells(this);
-    
-    // Update steps counter:
-    stepsOutput.textContent = ++stepCounter;
-    
-    // Update creatures visibility:
-    updateVisibility();
   }
+  
+  // Croll to the new player position:
+  scrollByCell(this);
+  
+  // Move player to the next cell:
+  movePlayer(this);
 }
 
 function createMaze(mazeSize) {
@@ -191,15 +161,16 @@ function initMaze(mazeSize, start) {
   initFreeCells(start);
   
   // Add player into start (reserved) position in maze:
-  let player = document.createElement("img");
-  player.classList.add("player");
-  player.src = getUrlAvatar();
-  player.width = `${getImgDim(mazeSize)}`;
+  let player = mazeCells[start];
+  let skin = document.createElement("img");
+  skin.classList.add("player-skin");
+  skin.src = getUrlAvatar();
+  skin.width = `${getImgDim(mazeSize)}`;
   // player.height = `${getImgDim(mazeSize)}`;
-  mazeCells[start].classList.add("current");
-  mazeCells[start].append(player);
+  player.classList.add("player");
+  player.append(skin);
   
-  updateAttainableCells(mazeCells[start]);
+  updateAttainableCells(player);
 
   // Add cat in maze:
   addCat();
@@ -249,55 +220,56 @@ function getCellBelow(cell) {
   return document.querySelector(`.maze-cell[data-row="${row + 1}"][data-column="${col}"]`);
 }
 
-function isVisible(player, creature) {
-  let leftCell, rightCell, topCell, bottomCell;
+// function isVisible(player, creature) {
+  // let leftCell, rightCell, topCell, bottomCell;
   
-  if (+player.parentElement.dataset.column < +creature.parentElement.dataset.column) {
+  // if (+player.parentElement.dataset.column < +creature.parentElement.dataset.column) {
     
-    leftCell = player.parentElement;
-    rightCell = creature.parentElement;
-  } else {
+    // leftCell = player.parentElement;
+    // rightCell = creature.parentElement;
+  // } else {
     
-    leftCell = creature.parentElement;
-    rightCell = player.parentElement;
-  }
+    // leftCell = creature.parentElement;
+    // rightCell = player.parentElement;
+  // }
   
-  if (+player.parentElement.dataset.row < +creature.parentElement.dataset.row) {
+  // if (+player.parentElement.dataset.row < +creature.parentElement.dataset.row) {
     
-    topCell = player.parentElement;
-    bottomCell = creature.parentElement;
-  } else {
+    // topCell = player.parentElement;
+    // bottomCell = creature.parentElement;
+  // } else {
     
-    topCell = creature.parentElement;
-    bottomCell = player.parentElement;
-  }
+    // topCell = creature.parentElement;
+    // bottomCell = player.parentElement;
+  // }
   
-  let onTheSameRow = +leftCell.dataset.row == +rightCell.dataset.row;
-  let onTheSameCol = +bottomCell.dataset.column == +topCell.dataset.column;
+  // let onTheSameRow = +leftCell.dataset.row == +rightCell.dataset.row;
+  // let onTheSameCol = +bottomCell.dataset.column == +topCell.dataset.column;
   
-  if (onTheSameRow) {
+  // if (onTheSameRow) {
     
-    for (let cell = leftCell; cell !== rightCell; cell = cell.nextSibling) {
+    // for (let cell = leftCell; cell !== rightCell; cell = cell.nextSibling) {
       
-      if (cell.style.borderRight !== "") return false;
-    }
+      // if (cell.style.borderRight !== "") return false;
+    // }
 
-    return true;
-  }
+    // return true;
+  // }
   
-  if (onTheSameCol) {
+  // if (onTheSameCol) {
     
-    for (let cell = bottomCell; cell !== topCell; cell = getCellAbove(cell)) {
+    // for (let cell = bottomCell; cell !== topCell; cell = getCellAbove(cell)) {
       
-      if (cell.style.borderTop !== "") return false;
-    }
+      // if (cell.style.borderTop !== "") return false;
+    // }
 
-    return true;
-  }
+    // return true;
+  // }
   
-  return false;
-}
+  // return false;
+// }
 
+// Update cells to move into which is legal for player:
 function updateAttainableCells(cell) {
   // Find previous attainable cells:
   let prevCells = document.querySelectorAll(".attainable");
@@ -331,33 +303,47 @@ function updateAttainableCells(cell) {
   }
 }
 
-function updateCurrentCell(cell) {
-  let prevCell = document.querySelector(".current");
-  prevCell.classList.remove("current");
+function movePlayer(cell) {
   
-  cell.classList.add("current");
+  let player = document.querySelector(".player");
+  let playerSkin = document.querySelector(".player-skin");
+  player.classList.remove("player");
+  playerSkin.remove();
+  
+  cell.classList.add("player");
+  cell.append(playerSkin);
+  
+  // Assign cells to move into which is legal:
+  updateAttainableCells(cell);
+  
+  // Update and print steps counter:
+  stepsOutput.textContent = ++stepCounter;
+  
+  // Update creatures visibility:
+  updateVisibility();
+  showCreatures();
+  resumeMusic();
+  
+  // Play sound of one step:
+  sound("footstep");
 }
 
 function clearMaze() {
-  let player = document.querySelector(".player");
-  let cat = document.querySelector(".cat");
-  let current = document.querySelector(".current");
+  
   let attainables = document.querySelectorAll(".attainable");
   
-  player.remove();
-  cat.remove();
-  nEnemies = 0;
-  current.classList.remove("current");
   for (let cell of attainables) cell.classList.remove("attainable");
 }
 
 function dropMaze() {
+  
   let maze = document.querySelector(".maze");
   maze.remove();
 }
 
 // Post message into game console:
 function postMessage(message) {
+  
   let console = document.querySelector(".console");
   let p = document.createElement("p");
   p.classList.add("console-message");
@@ -368,6 +354,7 @@ function postMessage(message) {
 
 // Remove all messages from game console:
 function flushConsole() {
+  
   let messages = document.querySelectorAll(".console-message");
   
   for (let message of messages) {
@@ -398,38 +385,52 @@ function getBorderDim(mazeSize) {
 }
 
 // Update creatures visibility:
-function updateVisibility() {
+// function updateVisibility() {
   
-  let player = document.querySelector(".player");
-  let cat = document.querySelector(".cat");
-  let enemies = document.querySelectorAll(".enemy");
-  let nEnemies = enemies.length;
+  // let player = document.querySelector(".player");
+  // let cat = document.querySelector(".cat");
+  // let enemies = document.querySelectorAll(".enemy");
+  // let nEnemies = enemies.length;
   
-    if ( isVisible(player, cat) ) {
+    // if ( isVisible(player, cat) ) {
       
-      if ( cat.style.display == "none" ) {
+      // if ( cat.style.display == "none" ) {
         
-        Sounds["meow"].play();
-        cat.style.display = "block";
-      }
-    } else {
+        // Sounds["meow"].play();
+        // cat.style.display = "block";
+      // }
+    // } else {
       
-      cat.style.display = "none";
-    }
+      // cat.style.display = "none";
+    // }
     
-    for (let i = 0; i < nEnemies; i++) {
+    // for (let i = 0; i < nEnemies; i++) {
       
-      if ( isVisible(player, enemies[i]) ) {
+      // if ( isVisible(player, enemies[i]) ) {
         
-        if ( enemies[i].style.display == "none" ) {
+        // if ( enemies[i].style.display == "none" ) {
           
-          resumeMusic("battle");
-          libEnemies[enemies[i].dataset.id].voice.play();
-          enemies[i].style.display = "block";
-        }
-      } else {
+          // resumeMusic("battle");
+          // libEnemies[enemies[i].dataset.id].voice.play();
+          // enemies[i].style.display = "block";
+        // }
+      // } else {
         
-        enemies[i].style.display = "none";
-      }
-    }
+        // enemies[i].style.display = "none";
+      // }
+    // }
+// }
+
+// End current game level:
+function levelUp() {
+  
+  postMessage("Отлично сработано! Принцесса очень довольна Вашей работой :3");
+  clearMaze();
+  stopMusic();
+  soundWin.play();
+  nextLevelButton.style.display = "block"; // Show next level button
+  scrollToMaze(); // Scroll to the top of .mazeWrapper element
+  
+  document.removeEventListener("keydown", arrowKeyProc);
+  document.addEventListener("keydown", enterKeyProc);
 }

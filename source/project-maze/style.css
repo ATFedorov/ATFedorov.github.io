@@ -75,7 +75,7 @@ div.maze-wrapper {
   background: steelblue;
 }
 
-.maze-cell.current:hover {
+.maze-cell.player:hover {
   background-color: gray;
 }
 

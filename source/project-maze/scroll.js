@@ -1,9 +1,28 @@
-// Scroll page to the maze block:
+// Scroll page to the .mazeWrapper block:
 function scrollToMaze() {
   let mazeWrapper = document.querySelector(".maze-wrapper");
   let mazeWrapperCoord = getCoords(mazeWrapper);
   
   window.scrollTo(0, mazeWrapperCoord.top);
+}
+
+// Vectical croll for compensation of one player step:
+function scrollByCell(cell) {
+  
+  let player = document.querySelector(".player");
+  
+  switch(player) {
+    
+  case getCellBelow(cell):
+  
+    scrollUp();
+    break;
+    
+  case getCellAbove(cell):
+  
+    scrollDown();
+    break;
+  }
 }
 
 function scrollDown() {
