@@ -17,9 +17,10 @@ let libSounds = [
   },
 ];
 
+// Game sounds:
 let Sounds = {};
 
-// Initialize sounds from library:
+// Initialize game sounds from library:
 for (let libSound of libSounds) {
   
   initSound(libSound);
@@ -35,7 +36,7 @@ function initSound(libSound) {
 }
 
 let foneMusicButton = document.querySelector("button.fone-music");
-let isPlaying = true; // User want to listen fone music (clicked button .fone-music)
+let pressedFoneMusicButton = false;
 
 let musicFone = new Audio();
 musicFone.src = `files/fone_music3.mp3`;
@@ -45,6 +46,7 @@ musicFone.loop = true;
 let musicBattle = new Audio();
 musicBattle.src = "files/fight1.mp3";
 musicBattle.volume = 0.3;
+musicBattle.loop = true;
 
 let soundWin = new Audio();
 soundWin.src = "files/game-won.mp3";
@@ -55,61 +57,51 @@ soundClick.src = "files/click.mp3";
 
 foneMusicButton.onclick = function() {
   
-  if (isPlaying) {
+  console.log(`previuos: ${pressedFoneMusicButton}`);
+  if (pressedFoneMusicButton) {
     
-    stopMusic();
-    isPlaying = false;
+    pressedFoneMusicButton = false;
+    stopMusic(pressedFoneMusicButton);
   } else {
     
-    musicFone.play();
-    isPlaying = true;
+    pressedFoneMusicButton = true;
+    resumeMusic("fone");
   }
   
+  console.log(`switched: ${pressedFoneMusicButton}`);
   soundClick.play();
 }
 
+// Need to get rid of this function:
 function sound(fileName) {
+  
   let sound = new Audio();
   sound.src = `files/${fileName}.mp3`; 
   sound.autoplay = true;
 }
 
-// let g_theme = "fone";
-
-// function switchMusic(theme) {
-  
-  // if (g_theme === theme) return;
-  
-  // switch (theme) {
-  // case "fone":
-    // musicBattle.pause();
-    // foneMusic.play();
-    // g_theme = "fone";
-    // break;
-  
-  // case "battle":
-    // foneMusic.pause();
-    // musicBattle.play();
-    // g_theme = "battle";
-    // break;
-  // }
-// }
-
-// function stopMusic() {
-  // switch (g_theme) {
-  // case "fone":
-    // foneMusic.pause();
-    // break;
-  
-  // case "battle":
-    // musicBattle.pause();
-    // break;
-  // }
-  // g_theme = "fone";
-// }
-
 function stopMusic() {
   
   musicFone.pause();
   musicBattle.pause();
+}
+
+function resumeMusic(theme) {
+  
+  if (!pressedFoneMusicButton) return;
+  
+  stopMusic();
+  
+  switch (theme) {
+    
+  case "fone":
+  
+    musicFone.play();
+    break;
+  
+  case "battle":
+  
+    musicBattle.play();
+    break;
+  }
 }
