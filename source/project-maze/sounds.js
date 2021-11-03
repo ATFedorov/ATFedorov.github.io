@@ -64,7 +64,7 @@ foneMusicButton.onclick = function() {
   } else {
     
     pressedFoneMusicButton = true;
-    resumeMusic("fone");
+    resumeMusic();
   }
   
   soundClick.play();
@@ -84,24 +84,36 @@ function stopMusic() {
   musicBattle.pause();
 }
 
+let g_theme = "fone";
+
 function resumeMusic() {
   
   if (!pressedFoneMusicButton) return;
   
-  theme = (countEnemies() > 0) ? "battle" : "fone";
-  stopMusic();
+  let music;
+  let theme = ( countEnemies() > 0 ) ? "battle" : "fone";
   
   switch (theme) {
     
   case "fone":
   
-    musicFone.play();
+    music = musicFone;
     break;
-  
-  case "battle":
     
-    musicBattle.play();
+  case "battle":
+  
+    music = musicBattle;
     break;
+  }
+  
+  if (theme === g_theme) {
+    
+    if (music.paused) music.play();
+  } else {
+    
+    stopMusic();
+    music.play();
+    g_theme = theme;
   }
 }
 
@@ -113,7 +125,7 @@ function giveVoice(cellEnemy) {
   if (cellEnemy.dataset.giveVoice) {
     
     enemy.voice.play();
-    cellEnemy.dataset.giveVoice = null;
+    cellEnemy.dataset.giveVoice = "";
   }
 }
 
@@ -123,7 +135,10 @@ function giveVoices() {
   let visibleCat = document.querySelector('.creature.visible[data-type="cat"]');
   let visibleEnemies = document.querySelectorAll('.creature.visible[data-type="enemy"]');
   
-  if (visibleCat?.dataset.giveVoice) Sounds["meow"].play();
+  if (visibleCat?.dataset.giveVoice) {
+    Sounds["meow"].play();
+    visibleCat.dataset.giveVoice = "";
+  }
   
   for (let enemy of visibleEnemies ) {
     giveVoice(enemy);
