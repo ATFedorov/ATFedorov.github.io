@@ -138,14 +138,16 @@ function attackCreature(cell) {
   cell.dataset.health = +cell.dataset.health - 8; // fix damage for test
   
   let healthPercent = Math.round( +cell.dataset.health * 100 / +cell.dataset.maxhealth);
+  healthPercent = ( healthPercent < 0 ) ? 0 : healthPercent;
   let creatureHealthBar = document.querySelector(".enemy-health .health-bar");
+  
   
   creatureHealthBar.style.width = `${healthPercent}%`;
   sound("punch");
   
   setTimeout(() => { creatureHealthBarLayout.style.visibility = "hidden"; }, 3500);
   
-  if ( +cell.dataset.health <= 0 ) {
+  if ( healthPercent == 0 ) {
     killCreature(cell);
     return;
   }
@@ -167,13 +169,14 @@ function attackPlayer() {
     currentHealth -= 2;
     
     let healthPercent = Math.round( currentHealth * 100 / health);
+    healthPercent = ( healthPercent < 0 ) ? 0 : healthPercent;
     let playerHealthBar = document.querySelector(".player-health .health-bar");
     
     playerHealthBar.style.width = `${healthPercent}%`;
     
     sound("punch");
     
-    if( currentHealth < 0 ) {
+    if( healthPercent == 0 ) {
       
       killPlayer();
       return;

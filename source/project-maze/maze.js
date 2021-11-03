@@ -1,5 +1,5 @@
 let INITIAL_PLAYER_POSITION = 0;
-let MAZE_DIM = 500; // px
+let MAZE_DIM = 600; // px
 let mazeSize = 4;
 // let nEnemies = 0;
 let level = 0;
