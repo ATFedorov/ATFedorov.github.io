@@ -1,21 +1,19 @@
 let INITIAL_PLAYER_POSITION = 0;
 let MAZE_DIM = 700; // px
 let mazeSize = 4;
-let nEnemies = 0;
-let levelCounter = 0;
-let stepCounter = 0;
+// let nEnemies = 0;
+let level = 0;
+let nSteps = 0;
+let health = 0;
 
-let avatarsList = document.querySelector(".avatars-list");
 let newGameButton = document.querySelector(".menu button.menu-option.new-game");
 let nextLevelButton = document.querySelector(".menu button.menu-option.next-level");
-let levelOutput = document.getElementById("level");
-let stepsOutput = document.getElementById("stepCounter");
 
 // Game entry point:
 newGameButton.onclick = function() {
   let mazeWrapper = document.querySelector(".maze-wrapper");
   mazeWrapper.append(createMaze(mazeSize));
-  updateStats(); // Do not enterchange this and the next lines! (initMaze use updated levelCounter)
+  updateStats(); // Do not enterchange this and the next lines! (initMaze use updated level)
   initMaze(mazeSize, INITIAL_PLAYER_POSITION);
   // Update creatures visibility:
   updateVisibility();
@@ -23,8 +21,12 @@ newGameButton.onclick = function() {
   giveVoices();
   resumeMusic();
   
-  avatarsList.style.display = "none";
-  this.style.display = "none"; // Hide the new game button
+  // Hide avatar list:
+  document.querySelector(".avatars-list").style.display = "none";
+  
+  // Hide the new game button
+  this.style.display = "none";
+  
   postMessage("Найдите в лабиринте кошку");
   
   soundClick.play();
@@ -38,7 +40,7 @@ nextLevelButton.onclick = function() {
   
   let mazeWrapper = document.querySelector(".maze-wrapper");
   mazeWrapper.append(createMaze(mazeSize));
-  updateStats(); // Do not enterchange this and the next lines! (initMaze use updated levelCounter)
+  updateStats(); // Do not enterchange this and the next lines! (initMaze use updated level)
   initMaze(mazeSize, INITIAL_PLAYER_POSITION);
   // Update creatures visibility:
   updateVisibility();
@@ -158,12 +160,16 @@ function initMaze(mazeSize, start) {
   
   // Add player into start (reserved) position in maze:
   let player = mazeCells[start];
+  // Make enrance into maze:
+  player.style.borderTop = "";
+  
   let skin = document.createElement("img");
   skin.classList.add("player-skin");
   skin.src = getUrlAvatar();
   skin.height = `${getImgDim(mazeSize)}`;
   // player.height = `${getImgDim(mazeSize)}`;
   player.classList.add("player");
+  player.dataset.health = health;
   player.append(skin);
   
   updateAttainableCells(player);
@@ -172,13 +178,22 @@ function initMaze(mazeSize, start) {
   addCat();
   
   // Add enemies in maze:
-  addEnemies(levelCounter);
+  addEnemies(level);
   
   // Assign cell procedure for maze cells:
   for (let cell of mazeCells) {
     
     cell.onclick = cellProc;
   }
+  
+  // Show health layout:
+  document.querySelector(".health-layout").style.display = "flex";
+  
+  // Show stats block:
+  document.querySelector(".stats").style.display = "block";
+  
+  // Play music:
+  if (!pressedFoneMusicButton) foneMusicButton.click();
   
   scrollToMaze();
   document.addEventListener("keydown", arrowKeyProc);
@@ -264,7 +279,7 @@ function movePlayer(cell) {
   updateAttainableCells(cell);
   
   // Update and print steps counter:
-  stepsOutput.textContent = ++stepCounter;
+  document.getElementById("nSteps").textContent = ++nSteps;
   
   // Update creatures visibility:
   updateVisibility();
@@ -312,11 +327,17 @@ function flushConsole() {
 
 // Update statictics for the level:
 function updateStats() {
-  levelCounter++;
-  stepCounter = 0;
+  let levelOutput = document.getElementById("level");
+  let healthOutput = document.getElementById("health");
+  let stepsOutput = document.getElementById("nSteps");
   
-  levelOutput.textContent = levelCounter;
-  stepsOutput.textContent = stepCounter;
+  level++;
+  nSteps = 0;
+  health += 10;
+  
+  levelOutput.textContent = level;
+  healthOutput.textContent = health;
+  stepsOutput.textContent = nSteps;
 }
 
 function getMazeCellDim(mazeSize) {

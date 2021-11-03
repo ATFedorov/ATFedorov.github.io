@@ -77,7 +77,6 @@ div.maze-wrapper {
   display: block;
 }
 
-
 .maze-cell:hover {
   background-color: RosyBrown;
 }
@@ -88,6 +87,17 @@ div.maze-wrapper {
 
 .maze-cell.player:hover {
   background-color: gray;
+}
+
+.maze-cell.blood {
+  position: relative;
+}
+
+.maze-cell.blood img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .page-footer {
@@ -155,6 +165,7 @@ main h2 {
 }
 
 .stats {
+  display: none;
   padding-left: 10px;
   margin-top: 50px;
   margin-right: 10px;
@@ -241,4 +252,38 @@ button.menu-option.next-level {
 
 .avatar.selected img {
   width: 120px;
+}
+
+.health-layout {
+  display: none !important; /* flex */
+  justify-content: space-between;
+  width: 700px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.health {
+  
+}
+
+.health-bar-layout {
+  width: 250px;
+  padding: 1px;
+  border: 2px solid darkgray;
+  background: #200;
+}
+
+.health-bar {
+  width: 100%;
+  height: 15px;
+  background-color: red;
+}
+
+.health h3 {
+  margin: 0;
+  text-align: center;
+}
+
+.enemy-health {
+  visibility: hidden;
 }

@@ -1,17 +1,17 @@
 let libEnemies = [
   {
     image: "files/enemy_rat.svg",
-    voice: Sounds["rat"],
+    voice: "rat",
     health: 10,
   },
   {
     image: "files/enemy_cat1.png",
-    voice: Sounds["meow2"],
+    voice: "meow2",
     health: 20,
   },
   {
     image: "files/enemy_cat2.png",
-    voice: Sounds["meow3"],
+    voice: "meow3",
     health: 20,
   },
 ];
@@ -25,8 +25,10 @@ function getEnemy() {
   skin.src = libEnemies[id].image;
   skin.width = `${getImgDim(mazeSize)}`;
   skin.style.display = "none";
+  let voice = libEnemies[id].voice;
+  let health = libEnemies[id].health;
   
-  return { id, skin };
+  return { skin, voice, health };
 }
 
 // Get array of enemies, generated at random:
@@ -42,7 +44,7 @@ function getEnemies(nEnemies) {
   return enemies;
 }
 
-// Add enemies in maze:
+// Add enemies into maze:
 function addEnemies(nEnemies) {
   
   let enemies = getEnemies(nEnemies);
@@ -54,7 +56,9 @@ function addEnemies(nEnemies) {
     
     cell.classList.add("creature");
     cell.dataset.type = "enemy";
-    cell.dataset.id = enemy.id;
+    cell.dataset.health = enemy.health;
+    cell.dataset.voice = enemy.voice;
+    
     cell.append(enemy.skin);
     
     total++;
@@ -71,6 +75,7 @@ function addCat() {
   
   cell.classList.add("creature");
   cell.dataset.type = "cat";
+  cell.dataset.voice = "meow";
   
   skin.classList.add("creature-skin");
   skin.src = "files/cat1.svg";
@@ -88,11 +93,15 @@ function killCreature(cell) {
   if (!cell.classList.contains("creature")) return false;
   
   cell.classList.remove("creature");
+  cell.classList.add("blood");
   cell.firstChild.remove();
-  cell.style.background = 'url("files/blood.png") no-repeat center';
-  cell.style.backgroundSize = `${getMazeCellDim(mazeSize)}px ${getMazeCellDim(mazeSize)}px`;
-  sound("punch");
+  let blood = document.createElement("img");
+  blood.style.display = "block";
+  blood.src = "files/blood.png";
+  blood.width = getImgDim(mazeSize);
+  cell.append(blood);
   
+  sound("punch");
   resumeMusic();
   
   return true;
