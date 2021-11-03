@@ -14,6 +14,16 @@ let libEnemies = [
     voice: "meow3",
     health: 20,
   },
+  {
+    image: "files/enemy_spider1.png",
+    voice: "spider1",
+    health: 15,
+  },
+  {
+    image: "files/enemy_spider2.svg",
+    voice: "spider2",
+    health: 30,
+  },
 ];
 
 // Get enemy at random:
@@ -57,6 +67,7 @@ function addEnemies(nEnemies) {
     cell.classList.add("creature");
     cell.dataset.type = "enemy";
     cell.dataset.health = enemy.health;
+    cell.dataset.maxhealth = enemy.health;
     cell.dataset.voice = enemy.voice;
     
     cell.append(enemy.skin);
@@ -101,7 +112,6 @@ function killCreature(cell) {
   blood.width = getImgDim(mazeSize);
   cell.append(blood);
   
-  sound("punch");
   resumeMusic();
   
   return true;
@@ -115,4 +125,77 @@ function saveCreature(cell) {
   cell.firstChild.remove();
   
   return true;
+}
+
+function attackCreature(cell) {
+  
+  if (!cell.classList.contains("creature")) return false;
+  
+  let creatureHealthBarLayout = document.querySelector(".enemy-health");
+  
+  creatureHealthBarLayout.style.visibility = "visible";
+  
+  cell.dataset.health = +cell.dataset.health - 8; // fix damage for test
+  
+  let healthPercent = Math.round( +cell.dataset.health * 100 / +cell.dataset.maxhealth);
+  let creatureHealthBar = document.querySelector(".enemy-health .health-bar");
+  
+  creatureHealthBar.style.width = `${healthPercent}%`;
+  sound("punch");
+  
+  setTimeout(() => { creatureHealthBarLayout.style.visibility = "hidden"; }, 3500);
+  
+  if ( +cell.dataset.health <= 0 ) {
+    killCreature(cell);
+    return;
+  }
+  
+  attackPlayer();
+}
+
+function attackPlayer() {
+  
+  let attainableCells = document.querySelectorAll(".attainable");
+  
+  for (let cell of attainableCells) {
+    
+    cell.classList.remove("attainable");
+  }
+  
+  setTimeout(() => {
+    
+    currentHealth -= 2;
+    
+    let healthPercent = Math.round( currentHealth * 100 / health);
+    let playerHealthBar = document.querySelector(".player-health .health-bar");
+    
+    playerHealthBar.style.width = `${healthPercent}%`;
+    
+    sound("punch");
+    
+    if( currentHealth < 0 ) {
+      
+      killPlayer();
+      return;
+    }
+    
+    updateAttainableCells();
+  }, 900);
+}
+
+function killPlayer() {
+  
+  let player = document.querySelector(".player");
+  
+  player.classList.add("blood");
+  player.firstChild.remove();
+  let blood = document.createElement("img");
+  blood.style.display = "block";
+  blood.src = "files/blood.png";
+  blood.width = getImgDim(mazeSize);
+  player.append(blood);
+  
+  stopMusic();
+  sound("game_over1");
+  postMessage("Упс, кажется этот орешек оказался вам не по зубам... Мы верим, в следующий раз Вам повезет больше!");
 }

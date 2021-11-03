@@ -1,10 +1,11 @@
 let INITIAL_PLAYER_POSITION = 0;
-let MAZE_DIM = 700; // px
+let MAZE_DIM = 500; // px
 let mazeSize = 4;
 // let nEnemies = 0;
 let level = 0;
 let nSteps = 0;
-let health = 0;
+let health = 10;
+let currentHealth;
 
 let newGameButton = document.querySelector(".menu button.menu-option.new-game");
 let nextLevelButton = document.querySelector(".menu button.menu-option.next-level");
@@ -19,7 +20,9 @@ newGameButton.onclick = function() {
   updateVisibility();
   showCreatures();
   giveVoices();
-  resumeMusic();
+  
+  // Play music:
+  if (!pressedFoneMusicButton) foneMusicButton.click();
   
   // Hide avatar list:
   document.querySelector(".avatars-list").style.display = "none";
@@ -71,7 +74,7 @@ function cellProc() {
       
     case "enemy":
       
-      killCreature(this);
+      attackCreature(this);
     
       return;
     
@@ -192,9 +195,6 @@ function initMaze(mazeSize, start) {
   // Show stats block:
   document.querySelector(".stats").style.display = "block";
   
-  // Play music:
-  if (!pressedFoneMusicButton) foneMusicButton.click();
-  
   scrollToMaze();
   document.addEventListener("keydown", arrowKeyProc);
 }
@@ -233,6 +233,9 @@ function getCellBelow(cell) {
 
 // Update cells to move into which is legal for player:
 function updateAttainableCells(cell) {
+  
+  let player = document.querySelector(".player");
+  
   // Find previous attainable cells:
   let prevCells = document.querySelectorAll(".attainable");
   
@@ -242,20 +245,20 @@ function updateAttainableCells(cell) {
   }
   
   // Determine cells to move into which is legal:
-  let leftCell = getCellLeft(cell);
-  let rightCell = getCellRight(cell);
-  let topCell = getCellAbove(cell);
-  let bottomCell = getCellBelow(cell);
+  let leftCell = getCellLeft(player);
+  let rightCell = getCellRight(player);
+  let topCell = getCellAbove(player);
+  let bottomCell = getCellBelow(player);
   
   if (leftCell !== null && !leftCell.style.borderRight) {
     
     leftCell.classList.add("attainable");
   }
-  if (rightCell !== null && !cell.style.borderRight) {
+  if (rightCell !== null && !player.style.borderRight) {
     
     rightCell.classList.add("attainable");
   }
-  if (topCell !== null && !cell.style.borderTop) {
+  if (topCell !== null && !player.style.borderTop) {
     
     topCell.classList.add("attainable");
   }
@@ -276,7 +279,7 @@ function movePlayer(cell) {
   cell.append(playerSkin);
   
   // Assign cells to move into which is legal:
-  updateAttainableCells(cell);
+  updateAttainableCells();
   
   // Update and print steps counter:
   document.getElementById("nSteps").textContent = ++nSteps;
@@ -333,11 +336,13 @@ function updateStats() {
   
   level++;
   nSteps = 0;
-  health += 10;
+  health += 2;
+  currentHealth = health;
   
   levelOutput.textContent = level;
   healthOutput.textContent = health;
   stepsOutput.textContent = nSteps;
+  document.querySelector(".player-health .health-bar").style.width = "100%";
 }
 
 function getMazeCellDim(mazeSize) {

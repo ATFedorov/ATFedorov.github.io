@@ -15,6 +15,14 @@ let libSounds = [
     id: "rat",
     src: "files/rat.mp3",
   },
+  {
+    id: "spider1",
+    src: "files/voice_spider1.mp3",
+  },
+  {
+    id: "spider2",
+    src: "files/voice_spider2.mp3",
+  },
 ];
 
 // Game sounds:
