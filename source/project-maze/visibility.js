@@ -14,29 +14,32 @@ function updateVisibility() {
     
     if (cell.style.borderRight) break; // Player can't see through the wall
     
-    if (!cell.classList.contains("creature")) continue;
+    if (cell.classList.contains("creature")) {
     
-    cell.classList.add("visible");
+      cell.classList.add("visible");
+    }
   }
   
   // Look for creatures rightward:
   for (let cell = viewPoint; cell !== null; cell = getCellRight(cell)) {
     
+    if (cell.classList.contains("creature")) {
+    
+      cell.classList.add("visible");
+    }
+    
     if (cell.style.borderRight) break; // Player can't see through the wall
-    
-    if (!cell.classList.contains("creature")) continue;
-    
-    cell.classList.add("visible");
   }
   
   // Look for creatures upward:
   for (let cell = viewPoint; cell !== null; cell = getCellAbove(cell)) {
     
+    if (cell.classList.contains("creature")) {
+    
+      cell.classList.add("visible");
+    }
+    
     if (cell.style.borderTop) break; // Player can't see through the wall
-    
-    if (!cell.classList.contains("creature")) continue;
-    
-    cell.classList.add("visible");
   }
   
   // Look for creatures downward:
@@ -44,9 +47,10 @@ function updateVisibility() {
     
     if (cell.style.borderTop) break; // Player can't see through the wall
     
-    if (!cell.classList.contains("creature")) continue;
+    if (cell.classList.contains("creature")) {
     
-    cell.classList.add("visible");
+      cell.classList.add("visible");
+    }
   }
 }
 
