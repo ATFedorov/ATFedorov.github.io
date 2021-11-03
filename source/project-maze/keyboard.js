@@ -36,6 +36,7 @@ function arrowKeyProc(event) {
   nextCell.click();
 }
 
+// Pressing to level up:
 function enterKeyProc(event) {
   
   if (event.key !== "Enter") return;

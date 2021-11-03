@@ -1,5 +1,5 @@
 let INITIAL_PLAYER_POSITION = 0;
-let MAZE_DIM = 600; // px
+let MAZE_DIM = 700; // px
 let mazeSize = 4;
 let nEnemies = 0;
 let levelCounter = 0;
@@ -88,9 +88,6 @@ function createMaze(mazeSize) {
   let mazeCells = [];
   
   maze.classList.add("maze");
-  maze.style.display = "table";
-  maze.style.margin = "0 auto";
-  maze.style.borderCollapse = "collapse";
   maze.style.borderLeft = `${getBorderDim(mazeSize)}px solid #28813C`;
   maze.style.borderBottom = `${getBorderDim(mazeSize)}px solid #28813C`;
   maze.style.backgroundColor = "lightgray";
@@ -101,17 +98,14 @@ function createMaze(mazeSize) {
     let mazeRow = document.createElement("div");
     
     mazeRow.classList.add("maze-row");
-    mazeRow.style.display = "table-row";
     
     for (let c = 0; c < mazeSize; c++) {
       
       let mazeCell = document.createElement("div");
       
       mazeCell.classList.add("maze-cell");
-      mazeCell.style.display = "table-cell";
       mazeCell.dataset.row = `${r}`;
       mazeCell.dataset.column = `${c}`;
-      mazeCell.style.textAlign = "center";
       mazeCell.style.borderTop = `${getBorderDim(mazeSize)}px solid #28813C`;
       mazeCell.style.borderRight = `${getBorderDim(mazeSize)}px solid #28813C`;
       mazeCell.style.width = `${getMazeCellDim(mazeSize)}px`;
@@ -167,7 +161,7 @@ function initMaze(mazeSize, start) {
   let skin = document.createElement("img");
   skin.classList.add("player-skin");
   skin.src = getUrlAvatar();
-  skin.width = `${getImgDim(mazeSize)}`;
+  skin.height = `${getImgDim(mazeSize)}`;
   // player.height = `${getImgDim(mazeSize)}`;
   player.classList.add("player");
   player.append(skin);
@@ -326,7 +320,7 @@ function updateStats() {
 }
 
 function getMazeCellDim(mazeSize) {
-  return Math.min( Math.floor( MAZE_DIM / mazeSize ), 100 );
+  return Math.floor( MAZE_DIM / mazeSize );
 }
 
 function getImgDim(mazeSize) {

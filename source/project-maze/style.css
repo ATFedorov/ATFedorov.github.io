@@ -57,13 +57,24 @@ div.maze-wrapper {
   border-radius: 10px;
 }
 
+.maze {
+  display: table;
+  margin: 0 auto;
+}
+
+.maze-row {
+  display: flex;
+}
+
 .maze-cell {
-  text-align: center;
-  vertical-align: middle;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
 }
 
 .maze-cell img {
-  margin: 0 auto;
+  display: block;
 }
 
 
@@ -146,8 +157,8 @@ main h2 {
 .stats {
   padding-left: 10px;
   margin-top: 50px;
-  margin-right: 20px;
-  width: 220px;
+  margin-right: 10px;
+  min-width: 240px;
   float: right;
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 10px;
