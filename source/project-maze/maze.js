@@ -1,10 +1,10 @@
 let INITIAL_PLAYER_POSITION = 0;
-let MAZE_DIM = 600; // px
+let MAZE_DIM = 500; // px
 let mazeSize = 4;
 // let nEnemies = 0;
 let level = 0;
 let nSteps = 0;
-let health = 10;
+let health = 9;
 let currentHealth;
 
 let newGameButton = document.querySelector(".menu button.menu-option.new-game");
@@ -336,7 +336,7 @@ function updateStats() {
   
   level++;
   nSteps = 0;
-  health += 2;
+  health += 1;
   currentHealth = health;
   
   levelOutput.textContent = level;

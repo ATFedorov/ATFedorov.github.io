@@ -2,27 +2,32 @@ let libEnemies = [
   {
     image: "files/enemy_rat.svg",
     voice: "rat",
-    health: 10,
+    health: 17,
+    strength: 1,
   },
   {
     image: "files/enemy_cat1.png",
     voice: "meow2",
-    health: 20,
+    health: 23,
+    strength: 3,
   },
   {
     image: "files/enemy_cat2.png",
     voice: "meow3",
-    health: 20,
+    health: 19,
+    strength: 2,
   },
   {
     image: "files/enemy_spider1.png",
     voice: "spider1",
-    health: 15,
+    health: 26,
+    strength: 1,
   },
   {
     image: "files/enemy_spider2.svg",
     voice: "spider2",
-    health: 30,
+    health: 16,
+    strength: 4,
   },
 ];
 
@@ -37,8 +42,9 @@ function getEnemy() {
   skin.style.display = "none";
   let voice = libEnemies[id].voice;
   let health = libEnemies[id].health;
+  let strength = libEnemies[id].strength;
   
-  return { skin, voice, health };
+  return { skin, voice, health, strength };
 }
 
 // Get array of enemies, generated at random:
@@ -69,6 +75,7 @@ function addEnemies(nEnemies) {
     cell.dataset.health = enemy.health;
     cell.dataset.maxhealth = enemy.health;
     cell.dataset.voice = enemy.voice;
+    cell.dataset.strength = enemy.strength;
     
     cell.append(enemy.skin);
     
@@ -81,19 +88,22 @@ function addEnemies(nEnemies) {
 // Add cat (to search for) in maze:
 function addCat() {
   
-  let cell = getCellFromFreeCells();
   let skin = document.createElement("img");
-  
-  cell.classList.add("creature");
-  cell.dataset.type = "cat";
-  cell.dataset.voice = "meow";
   
   skin.classList.add("creature-skin");
   skin.src = "files/cat1.svg";
   skin.width = `${getImgDim(mazeSize)}`;
   skin.style.display = "none";
   
-  cell.append(skin);
+  let i = getRandomNumber(Math.floor( freeCells.length / 2 ), freeCells.length - 1);
+  let index = freeCells[i];
+  freeCells.splice(i, 1); // Remove chosen cell from stock
+  
+  mazeCells[index].classList.add("creature");
+  mazeCells[index].dataset.type = "cat";
+  mazeCells[index].dataset.voice = "meow";
+  
+  mazeCells[index].append(skin);
   
   return true;
 }
@@ -145,17 +155,17 @@ function attackCreature(cell) {
   creatureHealthBar.style.width = `${healthPercent}%`;
   sound("punch");
   
-  setTimeout(() => { creatureHealthBarLayout.style.visibility = "hidden"; }, 3500);
+  setTimeout(() => { creatureHealthBarLayout.style.visibility = "hidden"; }, 5000);
   
   if ( healthPercent == 0 ) {
     killCreature(cell);
     return;
   }
   
-  attackPlayer();
+  attackPlayerBy(cell);
 }
 
-function attackPlayer() {
+function attackPlayerBy(creature) {
   
   let attainableCells = document.querySelectorAll(".attainable");
   
@@ -166,7 +176,7 @@ function attackPlayer() {
   
   setTimeout(() => {
     
-    currentHealth -= 2;
+    currentHealth -= +creature.dataset.strength;
     
     let healthPercent = Math.round( currentHealth * 100 / health);
     healthPercent = ( healthPercent < 0 ) ? 0 : healthPercent;
@@ -191,14 +201,14 @@ function killPlayer() {
   let player = document.querySelector(".player");
   
   player.classList.add("blood");
-  player.firstChild.remove();
+  // player.firstChild.remove();
   let blood = document.createElement("img");
   blood.style.display = "block";
   blood.src = "files/blood.png";
   blood.width = getImgDim(mazeSize);
   player.append(blood);
   
-  stopMusic();
+  foneMusicButton.click();
   sound("game_over1");
-  postMessage("Упс, кажется этот орешек оказался вам не по зубам... Мы верим, в следующий раз Вам повезет больше!");
+  postMessage("Кажись, игра окончена. Чтобы попробовать снова, обновите страницу. В следующий раз Вам повезет больше!");
 }
