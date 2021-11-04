@@ -1,9 +1,9 @@
 // Scroll page to the .mazeWrapper block:
 function scrollToMaze() {
-  let mazeWrapper = document.querySelector(".maze-wrapper");
-  let mazeWrapperCoord = getCoords(mazeWrapper);
+  let healthLayout = document.querySelector(".health-layout");
+  let healthLayoutCoord = getCoords(healthLayout);
   
-  window.scrollTo(0, mazeWrapperCoord.top);
+  window.scrollTo(0, healthLayoutCoord.top);
 }
 
 // Vectical croll for compensation of one player step:

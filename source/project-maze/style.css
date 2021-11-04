@@ -24,37 +24,53 @@ body main {
   text-align: center;
 }
 
-button.fone-music {
+button {
   font-family: inherited;
-  margin-left: 20px;
-  float: left;
-  background-color: yellow;
-  padding: 10px;
+  color: white;
+  padding: 5px 20px;
   border-radius: 5px;
+  background-color: #573;
 }
 
-button.fone-music:hover {
-  background-color: gold;
+button:hover {
+  background-color: #8a5;
   cursor: pointer;
 }
 
-button.fone-music:active {
+button:active {
   background-color: #28513C;
+}
+
+button.fone-music {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: none;
+  margin-top: 50px;
+  float: left;
 }
 
 .description {
   padding: 5px 30px;
+  margin-bottom: 50px;
   background-color: rgba(47, 79, 79, 0.8);
   border-radius: 10px;
 }
 
 div.maze-wrapper {
   width: 800px;
-  margin: 50px auto;
-  padding: 20px 0;
+  margin: 0 auto;
   background: #28513C;
   border: 1px solid black;
   border-radius: 10px;
+}
+
+.maze-container {
+  position: relative;
+  top: -10px;
+  overflow: auto;
+  margin: 0 auto;
+  width: 510px;
+  height: 510px;
 }
 
 .maze {
@@ -148,19 +164,19 @@ main h2 {
   margin-left: 35px;
 }
 
-.maze-wrapper .console {
+.console {
+  display: none;
+  min-height: 200px;
   color: gray;
-  margin-bottom: 20px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .console p {
-  margin: 0px;
+  margin: 0;
   margin-left: 20px;
-  margin-right: 10px;
 }
 
-.console p:last-child {
+.console p:first-child {
   color: yellow;
 }
 
@@ -185,22 +201,17 @@ main h2 {
 }
 
 div.menu {
-  margin-bottom: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
   display: flex;
   justify-content: center;
 }
 
 button.menu-option {
-  padding: 5px 20px;
-  font-family: inherited;
   font-size: 1em;
-  border-radius: 10px;
-  background-color: yellow;
-}
-
-button.menu-option:hover {
-  background-color: gold;
-  cursor: pointer;
 }
 
 button.menu-option.next-level {
@@ -208,9 +219,10 @@ button.menu-option.next-level {
 }
 
 .avatars-list {
-  margin-bottom: 20px;
-  padding: 20px;
+  position: relative;
+  top: 170px;
   display: flex;
+  z-index: 100;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -224,14 +236,14 @@ button.menu-option.next-level {
   height: 130px;
   margin-left: 10px;
   margin-bottom: 10px;
-  background-color: gray;
-  border: 3px solid green;
+  background-color: #909090;
+  border: 3px solid #08311C;
   border-radius: 5px;
 }
 
 .avatar:hover {
   cursor: pointer;
-  border: 3px solid lightgreen;
+  border: 3px solid #28513C;
   background-color: #b0b0b0;
 }
 
@@ -257,9 +269,7 @@ button.menu-option.next-level {
 .health-layout {
   display: none; /* flex */
   justify-content: space-between;
-  width: 700px;
-  margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .health {

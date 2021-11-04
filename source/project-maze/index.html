@@ -23,6 +23,16 @@
           <p>Вам поручили приняться за поиск пропавшей кошки. Чтобы вы не заблудились в лабиринте, принцесса передала вам волшебный клубочек с нитью, который всегда выведет обратно.</p>
         </div>
       </div>
+      <div class="health-layout">
+        <div class="health player-health">
+          <h3>Игрок</h3>
+          <div class="health-bar-layout"><div class="health-bar"></div></div>
+        </div>
+        <div class="health enemy-health">
+          <h3>Враг</h3>
+          <div class="health-bar-layout"><div class="health-bar"></div></div>
+        </div>
+      </div>
       <aside class="stats">
         <h3>Статистика</h3>
         <p>Уровень: <b><output id="level"></output></b><p>
@@ -31,27 +41,15 @@
       </aside>
       <button class="fone-music"><img src="files/notes.svg" height="17" style="vertical-align: top;"><b> ФОНОВАЯ МУЗЫКА</b></button>
       <div class="layout-positioner">
-        <div class="maze-wrapper">
-          <div class="avatars-list"></div>
+        <div class="avatars-list"></div>
+        <div class="maze-container">
           <div class="menu">
             <button class="menu-option new-game">Новая игра</button>
             <button class="menu-option next-level">Следующий уровень</button>
           </div>
-          <div class="console">
-            <p class="console-message">&gt; Выберите персонажа и нажмите на кнопку выше, чтобы начать поиски :3</p>
-          </div>
-          <div class="health-layout">
-            <div class="health player-health">
-              <h3>Игрок</h3>
-              <div class="health-bar-layout"><div class="health-bar"></div></div>
-            </div>
-            <div class="health enemy-health">
-              <h3>Враг</h3>
-              <div class="health-bar-layout"><div class="health-bar"></div></div>
-            </div>
-          </div>
         </div>
       </div>
+      <div class="console"></div>
     </main>
     <footer class="page-footer">
       <div class="layout-positioner clearfix">
