@@ -1,6 +1,6 @@
 let INITIAL_PLAYER_POSITION = 0;
-let MAZE_DIM = 500; // px
-let mazeSize = 5;
+let MAZE_DIM = 560; // px
+let mazeSize = 7;
 // let nEnemies = 0;
 let level = 0;
 let nSteps = 0;
@@ -92,8 +92,8 @@ function cellProc() {
     }
   }
   
-  // Croll to the new player position:
-  // scrollByCell(this);
+  // Scroll to the new player position:
+  scroll(this);
   
   // Move player to the next cell:
   movePlayer(this);
@@ -208,7 +208,7 @@ function initMaze(mazeSize, start) {
   
   // Rewind to start of maze:
   document.querySelector(".maze-container").scrollTo(0, 0);
-  document.querySelector(".maze-container").style.overflow = "auto";
+  // document.querySelector(".maze-container").style.overflow = "auto";
   
   document.addEventListener("keydown", arrowKeyProc);
 }
@@ -361,7 +361,7 @@ function updateStats() {
 
 function getMazeCellDim(mazeSize) {
   // return Math.floor( MAZE_DIM / mazeSize );
-  return 100;
+  return 80;
 }
 
 function getImgDim(mazeSize) {
@@ -370,7 +370,7 @@ function getImgDim(mazeSize) {
 }
 
 function getBorderDim(mazeSize) {
-  return Math.floor( 0.1 * getMazeCellDim(mazeSize) );
+  return 10;
 }
 
 // End current game level:
@@ -381,7 +381,7 @@ function levelUp() {
   stopMusic();
   soundWin.play();
   document.querySelector(".maze-container").scrollTo(0, 0);
-  document.querySelector(".maze-container").style.overflow = "hidden";
+  // document.querySelector(".maze-container").style.overflow = "hidden";
   nextLevelButton.style.display = "block"; // Show next level button
   // scrollToMaze(); // Scroll to the top of .mazeWrapper element
   

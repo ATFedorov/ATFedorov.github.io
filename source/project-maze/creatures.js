@@ -9,7 +9,7 @@ let libEnemies = [
     image: "files/enemy_cat1.png",
     voice: "meow2",
     health: 23,
-    strength: 3,
+    strength: 2,
   },
   {
     image: "files/enemy_cat2.png",
@@ -20,14 +20,14 @@ let libEnemies = [
   {
     image: "files/enemy_spider1.png",
     voice: "spider1",
-    health: 26,
+    health: 21,
     strength: 1,
   },
   {
     image: "files/enemy_spider2.svg",
     voice: "spider2",
     health: 16,
-    strength: 4,
+    strength: 3,
   },
 ];
 

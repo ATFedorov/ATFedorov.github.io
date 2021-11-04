@@ -3,7 +3,7 @@ function arrowKeyProc(event) {
   event.preventDefault();
   
   // Forbid cheating on repeated using of key:
-  // if (event.repeat) return;
+  if (event.repeat) return;
   
   let currentCell = document.querySelector(".maze-cell.player");
   let nextCell = null;

@@ -6,33 +6,66 @@ function scrollToMaze() {
   window.scrollTo(0, healthLayoutCoord.top);
 }
 
-// Vectical croll for compensation of one player step:
-function scrollByCell(cell) {
+// Scroll for compensation of one player step:
+function scroll(cell) {
   
+  let mazeContainer = document.querySelector(".maze-container");
   let player = document.querySelector(".player");
+  let direction;
   
-  switch(player) {
+  switch(cell) {
     
-  case getCellBelow(cell):
+  case getCellBelow(player):
   
-    scrollUp();
+    direction = "down";
     break;
     
-  case getCellAbove(cell):
+  case getCellAbove(player):
   
-    scrollDown();
+    direction = "up";
+    break;
+    
+  case getCellLeft(player):
+  
+    direction = "left";
+    break;
+    
+  case getCellRight(player):
+  
+    direction = "right";
     break;
   }
-}
-
-function scrollDown() {
   
-  window.scrollBy(0, getMazeCellDim(mazeSize) + getBorderDim(mazeSize));
-}
-
-function scrollUp() {
+  switch(direction) {
+    
+  case "down":
   
-  window.scrollBy(0, -(getMazeCellDim(mazeSize) + getBorderDim(mazeSize)));
+    if (+cell.dataset.row > 3) {
+      mazeContainer.scrollBy( 0, getMazeCellDim(mazeSize) );
+    }
+    break;
+    
+  case "up":
+  
+    if (+cell.dataset.row < mazeSize - 4) {
+      mazeContainer.scrollBy( 0, -getMazeCellDim(mazeSize) );
+    }
+    break;
+    
+  case "left":
+  
+    if (+cell.dataset.column < mazeSize - 4) {
+      mazeContainer.scrollBy( -getMazeCellDim(mazeSize), 0 );
+    }
+    break;
+      
+  case "right":
+  
+    if (+cell.dataset.column > 3) {
+      mazeContainer.scrollBy( getMazeCellDim(mazeSize), 0 );
+    }
+    break;
+  }
 }
 
 // Get HTML element coordinates:
