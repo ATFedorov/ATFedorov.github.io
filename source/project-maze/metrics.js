@@ -40,7 +40,7 @@ function getMazeCellDim() {
 
 function getImgDim() {
   
-  return Math.floor( 0.8 * getMazeCellDim() );
+  return Math.floor( 0.65 * getMazeCellDim() );
 }
 
 function getBorderDim() {

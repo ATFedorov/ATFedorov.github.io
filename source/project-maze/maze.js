@@ -80,7 +80,7 @@ function cellProc() {
     }
   }
   
-  // Scroll to the new player position:
+  // Scroll (if need) to the new player position:
   scroll(this);
   
   // Move player to the next cell:
@@ -95,6 +95,7 @@ function createMaze(mazeSize) {
   maze.style.borderLeft = `${getBorderDim()}px ridge DarkOliveGreen`;
   maze.style.borderBottom = `${getBorderDim()}px ridge DarkOliveGreen`;
   maze.style.backgroundColor = "lightgray";
+  maze.style.backgroundSize = `${getMazeCellDim() / 2}px ${getMazeCellDim() / 2}px`;
   
   // Form maze layout:
   for (let r = 0; r < mazeSize; r++) {
@@ -167,6 +168,8 @@ function initMaze(mazeSize, start) {
   
   let skin = document.createElement("img");
   skin.classList.add("player-skin");
+  skin.style.top = "0";
+  skin.style.left = "0";
   skin.src = getUrlAvatar();
   skin.height = `${getImgDim(mazeSize)}`;
   player.classList.add("player");
@@ -266,16 +269,18 @@ function updateAttainableCells(cell) {
 
 function movePlayer(cell) {
   
+  shiftPlayerSkinOnto(cell);
+  
   let player = document.querySelector(".player");
-  let playerSkin = document.querySelector(".player-skin");
+  // let playerSkin = document.querySelector(".player-skin");
   player.classList.remove("player");
-  playerSkin.remove();
+  // playerSkin.remove();
   
   cell.classList.add("player");
-  cell.append(playerSkin);
+  // cell.append(playerSkin);
   
   // Assign cells to move into which is legal:
-  updateAttainableCells();
+  setTimeout(() => { updateAttainableCells(); }, shiftDuration);
   
   // Update and print steps counter:
   document.getElementById("nSteps").textContent = ++nSteps;

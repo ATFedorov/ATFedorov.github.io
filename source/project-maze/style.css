@@ -88,17 +88,17 @@ div.maze-wrapper {
   display: block;
 }
 
-.maze-cell:hover {
+.maze-cell:not(.maze-row:first-child .maze-cell:first-child):not(.player):hover {
   background-color: rgba(188, 143, 143, 0.7);
 }
 
-.maze-cell.attainable:hover {
+.maze-cell.attainable:not(.maze-row:first-child .maze-cell:first-child):hover {
   background: rgba(70, 130, 180, 0.7);
 }
 
-.maze-cell.player:hover {
-  background-color: rgba(128, 128, 128, 0.7);
-}
+/* .maze-cell.player:hover { */
+  /* background-color: rgba(128, 128, 128, 0.7); */
+/* } */
 
 .maze-cell.blood {
   position: relative;
@@ -106,6 +106,7 @@ div.maze-wrapper {
 
 .maze-cell.blood img {
   position: absolute;
+  z-index: 0;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -225,7 +226,6 @@ button.menu-option.next-level {
 
 .avatars-list {
   display: flex;
-  z-index: 100;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -300,4 +300,9 @@ button.menu-option.next-level {
 
 .enemy-health {
   visibility: hidden;
+}
+
+.player-skin {
+    position: relative;
+    z-index: 1;
 }
