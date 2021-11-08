@@ -70,6 +70,7 @@ div.maze-wrapper {
 .maze {
   display: table;
   margin: 0 auto;
+  background-image: url("img/text_ground.jpg");
 }
 
 .maze-row {
@@ -88,15 +89,15 @@ div.maze-wrapper {
 }
 
 .maze-cell:hover {
-  background-color: RosyBrown;
+  background-color: rgba(188, 143, 143, 0.7);
 }
 
 .maze-cell.attainable:hover {
-  background: steelblue;
+  background: rgba(70, 130, 180, 0.7);
 }
 
 .maze-cell.player:hover {
-  background-color: gray;
+  background-color: rgba(128, 128, 128, 0.7);
 }
 
 .maze-cell.blood {

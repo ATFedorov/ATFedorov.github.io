@@ -92,8 +92,8 @@ function createMaze(mazeSize) {
   let mazeCells = [];
   
   maze.classList.add("maze");
-  maze.style.borderLeft = `${getBorderDim()}px solid #28813C`;
-  maze.style.borderBottom = `${getBorderDim()}px solid #28813C`;
+  maze.style.borderLeft = `${getBorderDim()}px ridge DarkOliveGreen`;
+  maze.style.borderBottom = `${getBorderDim()}px ridge DarkOliveGreen`;
   maze.style.backgroundColor = "lightgray";
   
   // Form maze layout:
@@ -110,8 +110,8 @@ function createMaze(mazeSize) {
       mazeCell.classList.add("maze-cell");
       mazeCell.dataset.row = `${r}`;
       mazeCell.dataset.column = `${c}`;
-      mazeCell.style.borderTop = `${getBorderDim()}px solid #28813C`;
-      mazeCell.style.borderRight = `${getBorderDim()}px solid #28813C`;
+      mazeCell.style.borderTop = `${getBorderDim()}px ridge DarkOliveGreen`;
+      mazeCell.style.borderRight = `${getBorderDim()}px ridge DarkOliveGreen`;
       mazeCell.style.width = `${getMazeCellDim()}px`;
       mazeCell.style.height = `${getMazeCellDim()}px`;
       
