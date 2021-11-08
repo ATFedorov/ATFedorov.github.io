@@ -42,7 +42,6 @@ button:active {
 }
 
 .quit-game {
-    display: none;
 }
 
 .description {
@@ -61,10 +60,11 @@ div.maze-wrapper {
 }
 
 .maze-container {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
   position: relative;
   overflow: hidden;
   margin-left: 260px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .maze {
@@ -161,7 +161,6 @@ main h2 {
 .console {
   display: none;
   height: 100px;
-  color: gray;
   background-color: rgba(0, 0, 0, 0.5);
 }
 

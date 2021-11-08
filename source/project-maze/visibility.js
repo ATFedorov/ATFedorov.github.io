@@ -17,6 +17,7 @@ function updateVisibility() {
     if (cell.classList.contains("creature")) {
     
       cell.classList.add("visible");
+      // cell.dataset.distance = viewPoint.dataset.column - cell.dataset.column;
     }
   }
   
@@ -26,6 +27,7 @@ function updateVisibility() {
     if (cell.classList.contains("creature")) {
     
       cell.classList.add("visible");
+      // cell.dataset.distance = cell.dataset.column - viewPoint.dataset.column;
     }
     
     if (cell.style.borderRight) break; // Player can't see through the wall
@@ -37,6 +39,7 @@ function updateVisibility() {
     if (cell.classList.contains("creature")) {
     
       cell.classList.add("visible");
+      // cell.dataset.distance = viewPoint.dataset.row - cell.dataset.row;
     }
     
     if (cell.style.borderTop) break; // Player can't see through the wall
@@ -50,7 +53,20 @@ function updateVisibility() {
     if (cell.classList.contains("creature")) {
     
       cell.classList.add("visible");
+      // cell.dataset.distance = cell.dataset.row - viewPoint.dataset.row;
     }
+  }
+  
+  // Enemies visibility correction:
+  let enemies = document.querySelectorAll('.creature.visible[data-type="enemy"]');
+  
+  for (let enemy of enemies) {
+      
+      if (enemy.dataset.column - leftUpperCell.dataset.column >= mazeContainerX ||
+          enemy.dataset.row - leftUpperCell.dataset.row >= mazeContainerY) {
+              
+           enemy.classList.remove("visible");
+      }
   }
 }
 

@@ -10,7 +10,7 @@ function buildInterface() {
     
     initMetrics();
     
-    // Adjust height of elements:
+    // Adjust sizes of elements:
     document.querySelector(".game-info").style.height = gameInfoHeight + "px";
     document.querySelector(".maze-container").style.height = mazeContainerHeight + "px";
     

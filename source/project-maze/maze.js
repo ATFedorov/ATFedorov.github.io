@@ -1,7 +1,5 @@
 let INITIAL_PLAYER_POSITION = 0;
-let MAZE_DIM = 560; // px
 let mazeSize = initMazeSize;
-// let nEnemies = 0;
 let level = 0;
 let nSteps = 0;
 let health = 9;
@@ -188,14 +186,13 @@ function initMaze(mazeSize, start) {
     
     cell.onclick = cellProc;
   }
-      
+  
+  updateScrollMetrics();
+  
   // Rewind to start of maze:
   document.querySelector(".maze-container").scrollTo(0, 0);
   
-  // document.querySelector(".maze-container").style.overflow = "auto";
-  
-  // Add arrow keys processing:
-  // document.addEventListener("keydown", arrowKeyProc);
+  leftUpperCell = player;
 }
 
 // Return cell left from the given cell in a maze:

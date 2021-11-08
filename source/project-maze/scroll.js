@@ -1,3 +1,5 @@
+let leftUpperCell;
+
 // Scroll page to the .mazeWrapper block:
 function scrollToMaze() {
   let healthLayout = document.querySelector(".health-layout");
@@ -40,29 +42,37 @@ function scroll(cell) {
     
   case "down":
   
-    if (+cell.dataset.row > 2) {
+    if (scrollCounterY < maxScrollY && +cell.dataset.row > Math.floor(mazeContainerY / 2)) {
       mazeContainer.scrollBy( 0, getMazeCellDim() );
+      leftUpperCell = getCellBelow(leftUpperCell);
+      scrollCounterY++;
     }
     break;
     
   case "up":
   
-    if (+cell.dataset.row < mazeSize - 3) {
+    if (scrollCounterY > 0 && +cell.dataset.row < mazeSize - Math.floor(mazeContainerY / 2) - 1) {
       mazeContainer.scrollBy( 0, -getMazeCellDim() );
+      leftUpperCell = getCellAbove(leftUpperCell);
+      scrollCounterY--;
     }
     break;
     
   case "left":
   
-    if (+cell.dataset.column < mazeSize - 4) {
+    if (scrollCounterX > 0 && +cell.dataset.column < mazeSize - Math.floor(mazeContainerX / 2) - 1) {
       mazeContainer.scrollBy( -getMazeCellDim(), 0 );
+      leftUpperCell = getCellLeft(leftUpperCell);
+      scrollCounterX--;
     }
     break;
       
   case "right":
   
-    if (+cell.dataset.column > 3) {
+    if (scrollCounterX < maxScrollX && +cell.dataset.column > Math.floor(mazeContainerX / 2)) {
       mazeContainer.scrollBy( getMazeCellDim(), 0 );
+      leftUpperCell = getCellRight(leftUpperCell);
+      scrollCounterX++;
     }
     break;
   }

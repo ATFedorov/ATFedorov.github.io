@@ -151,7 +151,7 @@ function attackCreature(cell) {
   
   creatureHealthBarLayout.style.visibility = "visible";
   
-  cell.dataset.health = +cell.dataset.health - 8; // fix damage for test
+  cell.dataset.health = +cell.dataset.health - 9; // fix damage for test
   
   let healthPercent = Math.round( +cell.dataset.health * 100 / +cell.dataset.maxhealth);
   healthPercent = ( healthPercent < 0 ) ? 0 : healthPercent;
@@ -215,6 +215,4 @@ function killPlayer() {
   stopMusic();
   sound("game_over1");
   postMessage("Игра окончена. В следующий раз Вам повезет больше!");
-  
-  document.querySelector(".quit-game").style.display = "block";
 }
