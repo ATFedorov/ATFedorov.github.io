@@ -1,17 +1,19 @@
 let INITIAL_PLAYER_POSITION = 0;
 let MAZE_DIM = 560; // px
-let mazeSize = 7;
+let mazeSize = initMazeSize;
 // let nEnemies = 0;
 let level = 0;
 let nSteps = 0;
 let health = 9;
 let currentHealth;
 
-let newGameButton = document.querySelector(".menu button.menu-option.new-game");
+let newGameButton = document.querySelector(".new-game-button");
 let nextLevelButton = document.querySelector(".menu button.menu-option.next-level");
 
 // Game entry point:
 newGameButton.onclick = function() {
+  buildInterface(); //for test
+  
   let mazeContainer = document.querySelector(".maze-container");
   mazeContainer.style.display = "block";
   mazeContainer.append(createMaze(mazeSize));
@@ -22,28 +24,16 @@ newGameButton.onclick = function() {
   showCreatures();
   giveVoices();
   
-  // Show fone music button:
-  foneMusicButton.style.display = "block";
   // Play music:
-  if (!pressedFoneMusicButton) foneMusicButton.click();
+  foneMusicButton.click();
   
-  // Show game console:
-  document.querySelector(".console").style.display = "block";
-  
-  // Hide avatar list:
-  document.querySelector(".avatars-list").style.display = "none";
+  postMessage("Найдите в лабиринте кошку");
+  soundClick.play();
   
   // Hide the new game button
   this.style.display = "none";
   
-  postMessage("Найдите в лабиринте кошку");
-  
   scrollToMaze();
-  
-  // Forbid page scrolling:
-  document.body.style.overflow = "hidden";
-  
-  soundClick.play();
 }
 
 // Create next game level:
@@ -104,8 +94,8 @@ function createMaze(mazeSize) {
   let mazeCells = [];
   
   maze.classList.add("maze");
-  maze.style.borderLeft = `${getBorderDim(mazeSize)}px solid #28813C`;
-  maze.style.borderBottom = `${getBorderDim(mazeSize)}px solid #28813C`;
+  maze.style.borderLeft = `${getBorderDim()}px solid #28813C`;
+  maze.style.borderBottom = `${getBorderDim()}px solid #28813C`;
   maze.style.backgroundColor = "lightgray";
   
   // Form maze layout:
@@ -122,10 +112,10 @@ function createMaze(mazeSize) {
       mazeCell.classList.add("maze-cell");
       mazeCell.dataset.row = `${r}`;
       mazeCell.dataset.column = `${c}`;
-      mazeCell.style.borderTop = `${getBorderDim(mazeSize)}px solid #28813C`;
-      mazeCell.style.borderRight = `${getBorderDim(mazeSize)}px solid #28813C`;
-      mazeCell.style.width = `${getMazeCellDim(mazeSize)}px`;
-      mazeCell.style.height = `${getMazeCellDim(mazeSize)}px`;
+      mazeCell.style.borderTop = `${getBorderDim()}px solid #28813C`;
+      mazeCell.style.borderRight = `${getBorderDim()}px solid #28813C`;
+      mazeCell.style.width = `${getMazeCellDim()}px`;
+      mazeCell.style.height = `${getMazeCellDim()}px`;
       
       mazeRow.append(mazeCell);
       mazeCells.push(mazeCell);
@@ -181,7 +171,6 @@ function initMaze(mazeSize, start) {
   skin.classList.add("player-skin");
   skin.src = getUrlAvatar();
   skin.height = `${getImgDim(mazeSize)}`;
-  // player.height = `${getImgDim(mazeSize)}`;
   player.classList.add("player");
   player.dataset.health = health;
   player.append(skin);
@@ -199,18 +188,14 @@ function initMaze(mazeSize, start) {
     
     cell.onclick = cellProc;
   }
-  
-  // Show health layout:
-  document.querySelector(".health-layout").style.display = "flex";
-  
-  // Show stats block:
-  document.querySelector(".stats").style.display = "block";
-  
+      
   // Rewind to start of maze:
   document.querySelector(".maze-container").scrollTo(0, 0);
+  
   // document.querySelector(".maze-container").style.overflow = "auto";
   
-  document.addEventListener("keydown", arrowKeyProc);
+  // Add arrow keys processing:
+  // document.addEventListener("keydown", arrowKeyProc);
 }
 
 // Return cell left from the given cell in a maze:
@@ -359,20 +344,6 @@ function updateStats() {
   document.querySelector(".player-health .health-bar").style.width = "100%";
 }
 
-function getMazeCellDim(mazeSize) {
-  // return Math.floor( MAZE_DIM / mazeSize );
-  return 80;
-}
-
-function getImgDim(mazeSize) {
-  
-  return Math.floor( 0.7 * getMazeCellDim(mazeSize) );
-}
-
-function getBorderDim(mazeSize) {
-  return 10;
-}
-
 // End current game level:
 function levelUp() {
   
@@ -385,6 +356,5 @@ function levelUp() {
   nextLevelButton.style.display = "block"; // Show next level button
   // scrollToMaze(); // Scroll to the top of .mazeWrapper element
   
-  document.removeEventListener("keydown", arrowKeyProc);
   document.addEventListener("keydown", enterKeyProc);
 }

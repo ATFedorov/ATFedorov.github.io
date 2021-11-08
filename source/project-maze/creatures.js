@@ -29,6 +29,12 @@ let libEnemies = [
     health: 16,
     strength: 3,
   },
+  {
+    image: "files/enemy_bat.svg",
+    voice: "bat",
+    health: 13,
+    strength: 1,
+  },
 ];
 
 // Get enemy at random:
@@ -200,15 +206,15 @@ function killPlayer() {
   
   let player = document.querySelector(".player");
   
-  player.classList.add("blood");
-  // player.firstChild.remove();
-  let blood = document.createElement("img");
-  blood.style.display = "block";
-  blood.src = "files/blood.png";
-  blood.width = getImgDim(mazeSize);
-  player.append(blood);
+  player.firstChild.remove();
+  let ghost = document.createElement("img");
+  ghost.src = "files/player_ghost.png";
+  ghost.width = getImgDim(mazeSize);
+  player.append(ghost);
   
-  foneMusicButton.click();
+  stopMusic();
   sound("game_over1");
-  postMessage("Кажись, игра окончена. Чтобы попробовать снова, обновите страницу. В следующий раз Вам повезет больше!");
+  postMessage("Игра окончена. В следующий раз Вам повезет больше!");
+  
+  document.querySelector(".quit-game").style.display = "block";
 }

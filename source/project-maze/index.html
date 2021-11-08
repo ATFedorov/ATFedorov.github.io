@@ -23,6 +23,14 @@
           <p>Вам поручили приняться за поиск пропавшей кошки. Чтобы вы не заблудились в лабиринте, принцесса передала вам волшебный клубочек с нитью, который всегда выведет обратно.</p>
         </div>
       </div>
+      
+      <div class="layout-positioner">
+        <div class="avatars-list"></div>
+        <div class="button-wrapper">
+            <button class="new-game-button">Новая игра</button>
+        </div>
+      </div>
+      
       <div class="health-layout">
         <div class="health player-health">
           <h3>Игрок</h3>
@@ -33,22 +41,24 @@
           <div class="health-bar-layout"><div class="health-bar"></div></div>
         </div>
       </div>
-      <aside class="stats">
-        <h3>Статистика</h3>
-        <p>Уровень: <b><output id="level"></output></b><p>
-        <p>Здоровье: <b><output id="health"></output></b><p>
-        <p>Пройдено шагов: <b><output id="nSteps"></output></b></p>
+      
+      <aside class="game-info">
+        <div class="stats">
+            <h3>Статистика</h3>
+            <p>Уровень: <b><output id="level"></output></b><p>
+            <p>Здоровье: <b><output id="health"></output></b><p>
+            <p>Пройдено шагов: <b><output id="nSteps"></output></b></p>
+        </div>
+        <button class="quit-game" onclick="window.location.href = 'index.html'"><b>НА ГЛАВНУЮ</b></button>
+        <button class="fone-music"><img src="files/notes.svg" height="17" style="vertical-align: top;"><b> ФОНОВАЯ МУЗЫКА</b></button>
       </aside>
-      <button class="fone-music"><img src="files/notes.svg" height="17" style="vertical-align: top;"><b> ФОНОВАЯ МУЗЫКА</b></button>
-      <div class="layout-positioner">
-        <div class="avatars-list"></div>
-        <div class="maze-container">
+      
+      <div class="maze-container">
           <div class="menu">
-            <button class="menu-option new-game">Новая игра</button>
             <button class="menu-option next-level">Следующий уровень</button>
           </div>
-        </div>
       </div>
+      
       <div class="console"></div>
     </main>
     <footer class="page-footer">
@@ -57,6 +67,8 @@
         <p class="contacts-footer"><a href="mailto:atfedorov1990@mail.ru">atfedorov1990@mail.ru</a></p>
       </div>
     </footer>
+    <script src="metrics.js"></script>
+    <script src="interface.js"></script>
     <script src="generator.js"></script>
     <script src="sounds.js"></script>
     <script src="avatar_selector.js"></script>

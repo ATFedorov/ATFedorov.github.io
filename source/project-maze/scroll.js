@@ -40,29 +40,29 @@ function scroll(cell) {
     
   case "down":
   
-    if (+cell.dataset.row > 3) {
-      mazeContainer.scrollBy( 0, getMazeCellDim(mazeSize) );
+    if (+cell.dataset.row > 2) {
+      mazeContainer.scrollBy( 0, getMazeCellDim() );
     }
     break;
     
   case "up":
   
-    if (+cell.dataset.row < mazeSize - 4) {
-      mazeContainer.scrollBy( 0, -getMazeCellDim(mazeSize) );
+    if (+cell.dataset.row < mazeSize - 3) {
+      mazeContainer.scrollBy( 0, -getMazeCellDim() );
     }
     break;
     
   case "left":
   
     if (+cell.dataset.column < mazeSize - 4) {
-      mazeContainer.scrollBy( -getMazeCellDim(mazeSize), 0 );
+      mazeContainer.scrollBy( -getMazeCellDim(), 0 );
     }
     break;
       
   case "right":
   
     if (+cell.dataset.column > 3) {
-      mazeContainer.scrollBy( getMazeCellDim(mazeSize), 0 );
+      mazeContainer.scrollBy( getMazeCellDim(), 0 );
     }
     break;
   }

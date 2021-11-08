@@ -23,6 +23,10 @@ let libSounds = [
     id: "spider2",
     src: "files/voice_spider2.mp3",
   },
+  {
+    id: "bat",
+    src: "files/voice_bat.mp3",
+  },
 ];
 
 // Game sounds:

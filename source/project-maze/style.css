@@ -41,17 +41,13 @@ button:active {
   background-color: #28513C;
 }
 
-button.fone-music {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  display: none;
-  margin-top: 50px;
-  float: left;
+.quit-game {
+    display: none;
 }
 
 .description {
   padding: 5px 30px;
-  margin-bottom: 50px;
+  margin-bottom: 200px;
   background-color: rgba(47, 79, 79, 0.8);
   border-radius: 10px;
 }
@@ -67,11 +63,8 @@ div.maze-wrapper {
 .maze-container {
   scroll-behavior: smooth;
   position: relative;
-  top: -50px;
   overflow: hidden;
-  margin: 0 auto;
-  width: 570px;
-  height: 570px;
+  margin-left: 260px;
 }
 
 .maze {
@@ -166,12 +159,10 @@ main h2 {
 }
 
 .console {
-  position: relative;
-  top: -50px;
   display: none;
-  min-height: 200px;
+  height: 100px;
   color: gray;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .console p {
@@ -183,15 +174,15 @@ main h2 {
   color: yellow;
 }
 
-.stats {
-  display: none;
+.game-info {
+  display: none; /* flex */
   padding-left: 10px;
-  margin-top: 50px;
-  margin-right: 10px;
-  min-width: 240px;
-  float: right;
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 10px;
+  padding-right: 10px;
+  flex-direction: column;
+  justify-content: space-between;
+  float: left;
+  width: 260px;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .stats h3 {
@@ -221,9 +212,18 @@ button.menu-option.next-level {
   display: none;
 }
 
+.button-wrapper {
+    margin-top: 50px;
+    margin-bottom: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.new-game-button {
+    font-size: 1em;
+}
+
 .avatars-list {
-  position: relative;
-  top: 170px;
   display: flex;
   z-index: 100;
   justify-content: center;
@@ -271,8 +271,9 @@ button.menu-option.next-level {
 
 .health-layout {
   display: none; /* flex */
+  padding: 10px;
   justify-content: space-between;
-  margin-bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .health {
