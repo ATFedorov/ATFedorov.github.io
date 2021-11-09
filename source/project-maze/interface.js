@@ -19,4 +19,6 @@ function buildInterface() {
     
     // Add arrow keys processing:
     document.addEventListener("keydown", arrowKeyProc);
+    
+    initInventory();
 }

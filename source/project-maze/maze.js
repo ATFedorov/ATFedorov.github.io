@@ -76,8 +76,10 @@ function cellProc() {
       attackCreature(this);
     
       return;
-    
     }
+  } else if ( this.classList.contains("item") ) {
+      
+      takeItem(this);
   }
   
   // Scroll (if need) to the new player position:
@@ -183,6 +185,9 @@ function initMaze(mazeSize, start) {
   
   // Add enemies in maze:
   addEnemies(level);
+  
+  // Add item (health potion) into maze:
+  addItemIntoMaze("healthPotion");
   
   // Assign cell procedure for maze cells:
   for (let cell of mazeCells) {
