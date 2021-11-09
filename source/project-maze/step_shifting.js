@@ -1,4 +1,6 @@
-let shiftDuration = 200;
+let shiftDuration = 0;
+let shiftPixDuration = 4; //Duration for shifting through one pixel;
+let partition = [];
 
 function shiftUp() {
     distributeFunctionOverTimePartition(shiftUpByPix, getTimePartition());
@@ -18,12 +20,16 @@ function shiftRight() {
 
 // Return regular partition of shift duration:
 function getTimePartition() {
-    let partition = [];
-    let norm = Math.floor( shiftDuration / getMazeCellDim() ); // time span per px
+    if ( partition.length > 0 ) return partition;
+
+    // Initialize duration of shifting by cell:
+    shiftDuration = 4 * getMazeCellDim();
+    
+    // let norm = Math.floor( shiftDuration / getMazeCellDim() ); // time span per px
 
     for (let i = 0; i < getMazeCellDim(); i++) {
         
-        partition.push(norm);
+        partition.push(shiftPixDuration);
     }
     
     return partition;
