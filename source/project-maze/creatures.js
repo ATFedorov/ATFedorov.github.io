@@ -44,7 +44,7 @@ function getEnemy() {
   let skin = document.createElement("img");
   skin.classList.add("creature-skin");
   skin.src = libEnemies[id].image;
-  skin.width = `${getImgDim(mazeSize)}`;
+  skin.width = `${getImgDim()}`;
   skin.style.display = "none";
   let voice = libEnemies[id].voice;
   let health = libEnemies[id].health;
@@ -98,7 +98,7 @@ function addCat() {
   
   skin.classList.add("creature-skin");
   skin.src = "files/cat1.svg";
-  skin.width = `${getImgDim(mazeSize)}`;
+  skin.width = `${getImgDim()}`;
   skin.style.display = "none";
   
   let i = getRandomNumber(Math.floor( freeCells.length / 2 ), freeCells.length - 1);
@@ -125,7 +125,7 @@ function killCreature(cell) {
   let blood = document.createElement("img");
   blood.style.display = "block";
   blood.src = "files/blood.png";
-  blood.width = getImgDim(mazeSize);
+  blood.width = getImgDim();
   cell.append(blood);
   
   resumeMusic();
@@ -205,11 +205,12 @@ function attackPlayerBy(creature) {
 function killPlayer() {
   
   let player = document.querySelector(".player");
+  let playerSkin = document.querySelector(".player-skin");
   
-  player.firstChild.remove();
+  playerSkin.remove();
   let ghost = document.createElement("img");
   ghost.src = "files/player_ghost.png";
-  ghost.width = getImgDim(mazeSize);
+  ghost.width = getImgDim();
   player.append(ghost);
   
   stopMusic();

@@ -171,7 +171,7 @@ function initMaze(mazeSize, start) {
   skin.style.top = "0";
   skin.style.left = "0";
   skin.src = getUrlAvatar();
-  skin.height = `${getImgDim(mazeSize)}`;
+  skin.height = `${getImgDim()}`;
   player.classList.add("player");
   player.dataset.health = health;
   player.append(skin);
