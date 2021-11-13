@@ -35,7 +35,10 @@ function updateScrollMetrics() {
 }
 
 function getMazeCellDim() {
-  return Math.floor( (mazeContainerHeight - borderSize) / initMazeSize );
+  let roughMazeCellDim = Math.floor( (mazeContainerHeight - borderSize) / initMazeSize );
+  let correctedMazeCellDim = roughMazeCellDim - roughMazeCellDim % 4; // 4 - elementary shifting by
+  
+  return correctedMazeCellDim;
 }
 
 function getImgDim() {

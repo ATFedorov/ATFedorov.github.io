@@ -70,22 +70,22 @@ function getCoords(elem) {
 
 function scrollUpByPix() {
     let mazeContainer = document.querySelector(".maze-container");
-    mazeContainer.scrollBy(0, -1);
+    mazeContainer.scrollBy(0, -4);
 }
 
 function scrollDownByPix() {
     let mazeContainer = document.querySelector(".maze-container");
-    mazeContainer.scrollBy(0, 1);
+    mazeContainer.scrollBy(0, 4);
 }
 
 function scrollLeftByPix() {
     let mazeContainer = document.querySelector(".maze-container");
-    mazeContainer.scrollBy(-1, 0);
+    mazeContainer.scrollBy(-4, 0);
 }
 
 function scrollRightByPix() {
     let mazeContainer = document.querySelector(".maze-container");
-    mazeContainer.scrollBy(1, 0);
+    mazeContainer.scrollBy(4, 0);
 }
 
 function scrollUp() {
@@ -109,5 +109,5 @@ function distributeFunctionOverTimePartition(func, partition) {
         if (index == partition.length) return;
         func();
         setTimeout(applyToTheNext, partition[index], partition, index + 1);
-    }, partition[0], partition, 1);
+    }, partition[0], partition, 0);
 }

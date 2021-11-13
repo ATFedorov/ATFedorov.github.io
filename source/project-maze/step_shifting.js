@@ -1,5 +1,6 @@
 let shiftDuration = 0;
-let shiftPixDuration = 4; //Duration for shifting through one pixel;
+let nElemPix = 4; // Elementary shift pixel size
+let shiftElemDuration = 4; //Duration for shifting through one pixel;
 let partition = [];
 
 function shiftUp() {
@@ -23,13 +24,13 @@ function getTimePartition() {
     if ( partition.length > 0 ) return partition;
 
     // Initialize duration of shifting by cell:
-    shiftDuration = 4 * getMazeCellDim();
+    shiftDuration = getMazeCellDim();
     
     // let norm = Math.floor( shiftDuration / getMazeCellDim() ); // time span per px
 
-    for (let i = 0; i < getMazeCellDim(); i++) {
+    for (let i = 0; i < getMazeCellDim() / nElemPix; i++) {
         
-        partition.push(shiftPixDuration);
+        partition.push(shiftElemDuration);
     }
     
     return partition;
@@ -37,22 +38,22 @@ function getTimePartition() {
 
 function shiftUpByPix() {
     let playerSkin = document.querySelector(".player-skin");
-    playerSkin.style.top = ( parseInt(playerSkin.style.top, 10) - 1 ) + "px";
+    playerSkin.style.top = ( parseInt(playerSkin.style.top, 10) - nElemPix ) + "px";
 }
 
 function shiftDownByPix() {
     let playerSkin = document.querySelector(".player-skin");
-    playerSkin.style.top = ( parseInt(playerSkin.style.top, 10) + 1 ) + "px";
+    playerSkin.style.top = ( parseInt(playerSkin.style.top, 10) + nElemPix ) + "px";
 }
 
 function shiftLeftByPix() {
     let playerSkin = document.querySelector(".player-skin");
-    playerSkin.style.left = ( parseInt(playerSkin.style.left, 10) - 1 ) + "px";
+    playerSkin.style.left = ( parseInt(playerSkin.style.left, 10) - nElemPix ) + "px";
 }
 
 function shiftRightByPix() {
     let playerSkin = document.querySelector(".player-skin");
-    playerSkin.style.left = ( parseInt(playerSkin.style.left, 10) + 1 ) + "px";
+    playerSkin.style.left = ( parseInt(playerSkin.style.left, 10) + nElemPix ) + "px";
 }
 
 function getShiftDirection(cell) {
