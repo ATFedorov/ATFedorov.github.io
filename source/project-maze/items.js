@@ -1,5 +1,5 @@
 let libItems = {
-    healthPotion: { image: "files/blood-sample.svg", value: 5, sound: "sound_item_gurgle" }
+    healthPotion: { image: "files/blood-sample.svg", value: 40, sound: "sound_item_gurgle" }
 };
 
 function addItemIntoMaze(idItem) {

@@ -1,9 +1,9 @@
 let INITIAL_PLAYER_POSITION = 0;
 let mazeSize = initMazeSize;
-let level = 0;
+let level = 1;
 let nSteps = 0;
-let health = 9;
-let currentHealth;
+let health = 40;
+let currentHealth = health;
 
 let newGameButton = document.querySelector(".new-game-button");
 let nextLevelButton = document.querySelector(".menu button.menu-option.next-level");
@@ -15,7 +15,7 @@ newGameButton.onclick = function() {
   let mazeContainer = document.querySelector(".maze-container");
   mazeContainer.style.display = "block";
   mazeContainer.append(createMaze(mazeSize));
-  updateStats(); // Do not enterchange this and the next lines! (initMaze use updated level)
+  showStats();
   initMaze(mazeSize, INITIAL_PLAYER_POSITION);
   // Update creatures visibility:
   updateVisibility();
@@ -43,6 +43,7 @@ nextLevelButton.onclick = function() {
   let mazeContainer = document.querySelector(".maze-container");
   mazeContainer.append(createMaze(mazeSize));
   updateStats(); // Do not enterchange this and the next lines! (initMaze use updated level)
+  showStats();
   initMaze(mazeSize, INITIAL_PLAYER_POSITION);
   // Update creatures visibility:
   updateVisibility();
@@ -336,19 +337,24 @@ function flushConsole() {
 
 // Update statictics for the level:
 function updateStats() {
+  level++;
+  nSteps = 0;
+  health += 2;
+  currentHealth = Math.min(health, currentHealth + 2);
+}
+
+// Show statistics for the level:
+function showStats() {
   let levelOutput = document.getElementById("level");
   let healthOutput = document.getElementById("health");
   let stepsOutput = document.getElementById("nSteps");
   
-  level++;
-  nSteps = 0;
-  health += 1;
-  currentHealth = health;
-  
   levelOutput.textContent = level;
   healthOutput.textContent = health;
   stepsOutput.textContent = nSteps;
-  document.querySelector(".player-health .health-bar").style.width = "100%";
+  let healthPercent = Math.round( currentHealth * 100 / health);
+  let playerHealthBar = document.querySelector(".player-health .health-bar");
+  playerHealthBar.style.width = `${healthPercent}%`;
 }
 
 // End current game level:

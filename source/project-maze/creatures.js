@@ -2,38 +2,56 @@ let libEnemies = [
   {
     image: "files/enemy_rat.svg",
     voice: "rat",
+    sound_attack: "punch",
+    sound_die: "death_rat",
     health: 17,
-    strength: 1,
+    damage: 4,
+    maxdamage: 7,
   },
   {
     image: "files/enemy_cat1.png",
     voice: "meow2",
+    sound_attack: "attack_cat1",
+    sound_die: "death_cat",
     health: 23,
-    strength: 2,
+    damage: 5,
+    maxdamage: 9,
   },
   {
     image: "files/enemy_cat2.png",
     voice: "meow3",
+    sound_attack: "attack_cat1",
+    sound_die: "death_cat",
     health: 19,
-    strength: 2,
+    damage: 5,
+    maxdamage: 9,
   },
   {
     image: "files/enemy_spider1.png",
     voice: "spider1",
+    sound_attack: "attack_spider1",
+    sound_die: "death_spider",
     health: 21,
-    strength: 1,
+    damage: 4,
+    maxdamage: 8,
   },
   {
     image: "files/enemy_spider2.svg",
     voice: "spider2",
+    sound_attack: "attack_spider2",
+    sound_die: "death_spider",
     health: 16,
-    strength: 3,
+    damage: 7,
+    maxdamage: 16,
   },
   {
     image: "files/enemy_bat.svg",
     voice: "bat",
+    sound_attack: "punch",
+    sound_die: "death_bat",
     health: 13,
-    strength: 1,
+    damage: 4,
+    maxdamage: 10,
   },
 ];
 
@@ -47,10 +65,13 @@ function getEnemy() {
   skin.width = `${getImgDim()}`;
   skin.style.display = "none";
   let voice = libEnemies[id].voice;
+  let sound_attack = libEnemies[id].sound_attack;
+  let sound_die = libEnemies[id].sound_die;
   let health = libEnemies[id].health;
-  let strength = libEnemies[id].strength;
+  let damage = libEnemies[id].damage;
+  let maxdamage = libEnemies[id].maxdamage;
   
-  return { skin, voice, health, strength };
+  return { skin, voice, sound_attack, sound_die, health, damage, maxdamage };
 }
 
 // Get array of enemies, generated at random:
@@ -78,10 +99,13 @@ function addEnemies(nEnemies) {
     
     cell.classList.add("creature");
     cell.dataset.type = "enemy";
+    cell.dataset.voice = enemy.voice;
+    cell.dataset.sound_attack = enemy.sound_attack;
+    cell.dataset.sound_die = enemy.sound_die;
     cell.dataset.health = enemy.health;
     cell.dataset.maxhealth = enemy.health;
-    cell.dataset.voice = enemy.voice;
-    cell.dataset.strength = enemy.strength;
+    cell.dataset.damage = enemy.damage;
+    cell.dataset.maxdamage = enemy.maxdamage;
     
     cell.append(enemy.skin);
     
@@ -128,6 +152,7 @@ function killCreature(cell) {
   blood.width = getImgDim();
   cell.append(blood);
   
+  sound(cell.dataset.sound_die);
   resumeMusic();
   
   return true;
@@ -159,7 +184,7 @@ function attackCreature(cell) {
   
   
   creatureHealthBar.style.width = `${healthPercent}%`;
-  sound("punch");
+  sound("attack_player");
   
   setTimeout(() => { creatureHealthBarLayout.style.visibility = "hidden"; }, 5000);
   
@@ -182,15 +207,15 @@ function attackPlayerBy(creature) {
   
   setTimeout(() => {
     
-    currentHealth -= +creature.dataset.strength;
+    currentHealth -= getRandomNumber(+creature.dataset.damage, +creature.dataset.maxdamage);
     
     let healthPercent = Math.round( currentHealth * 100 / health);
     healthPercent = ( healthPercent < 0 ) ? 0 : healthPercent;
     let playerHealthBar = document.querySelector(".player-health .health-bar");
-    
+  
     playerHealthBar.style.width = `${healthPercent}%`;
     
-    sound("punch");
+    sound(creature.dataset.sound_attack);
     
     if( healthPercent == 0 ) {
       
