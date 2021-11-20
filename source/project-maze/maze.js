@@ -2,6 +2,7 @@ let INITIAL_PLAYER_POSITION = 0;
 let mazeSize = initMazeSize;
 let level = 1;
 let nSteps = 0;
+let nEnemies = 0;
 let health = 40;
 let currentHealth = health;
 
@@ -185,7 +186,7 @@ function initMaze(mazeSize, start) {
   addCat();
   
   // Add enemies in maze:
-  addEnemies(level);
+  addEnemies( Math.round(1.3 ** level) );
   
   // Add item (health potion) into maze:
   addItemIntoMaze("healthPotion");
@@ -340,8 +341,9 @@ function flushConsole() {
 function updateStats() {
   level++;
   nSteps = 0;
+  nEnemies = 0;
   health += 2;
-  currentHealth = Math.min(health, currentHealth + 2);
+  currentHealth = health;
 }
 
 // Show statistics for the level:
@@ -349,13 +351,13 @@ function showStats() {
   let levelOutput = document.getElementById("level");
   let healthOutput = document.getElementById("health");
   let stepsOutput = document.getElementById("nSteps");
+  let enemiesOutput = document.getElementById("nEnemies");
   
   levelOutput.textContent = level;
   healthOutput.textContent = health;
   stepsOutput.textContent = nSteps;
-  let healthPercent = Math.round( currentHealth * 100 / health);
-  let playerHealthBar = document.querySelector(".player-health .health-bar");
-  playerHealthBar.style.width = `${healthPercent}%`;
+  enemiesOutput.textContent = nEnemies;
+  document.querySelector(".player-health .health-bar").style.width = "100%";
 }
 
 // End current game level:

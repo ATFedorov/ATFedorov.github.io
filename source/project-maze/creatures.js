@@ -5,7 +5,7 @@ let libEnemies = [
     sound_attack: "punch",
     sound_die: "death_rat",
     health: 17,
-    damage: 4,
+    damage: 2,
     maxdamage: 7,
   },
   {
@@ -14,8 +14,8 @@ let libEnemies = [
     sound_attack: "attack_cat2",
     sound_die: "death_cat3",
     health: 23,
-    damage: 5,
-    maxdamage: 9,
+    damage: 2,
+    maxdamage: 7,
   },
   {
     image: "files/enemy_cat2.png",
@@ -23,7 +23,7 @@ let libEnemies = [
     sound_attack: "attack_cat3",
     sound_die: "death_cat2",
     health: 19,
-    damage: 5,
+    damage: 3,
     maxdamage: 9,
   },
   {
@@ -41,17 +41,17 @@ let libEnemies = [
     sound_attack: "attack_spider2",
     sound_die: "death_spider",
     health: 16,
-    damage: 7,
-    maxdamage: 16,
+    damage: 5,
+    maxdamage: 10,
   },
   {
     image: "files/enemy_bat.svg",
     voice: "bat",
-    sound_attack: "punch",
-    sound_die: "death_bat",
+    sound_attack: "attack_bat",
+    sound_die: "death_bat2",
     health: 13,
     damage: 4,
-    maxdamage: 10,
+    maxdamage: 7,
   },
 ];
 
@@ -152,6 +152,9 @@ function killCreature(cell) {
   blood.width = getImgDim();
   cell.append(blood);
   
+  // Update and print enemies counter:
+  document.getElementById("nEnemies").textContent = ++nEnemies;
+  
   sound(cell.dataset.sound_die);
   resumeMusic();
   
@@ -184,7 +187,7 @@ function attackCreature(cell) {
   
   
   creatureHealthBar.style.width = `${healthPercent}%`;
-  sound("attack_player");
+  sound("punch");
   
   setTimeout(() => { creatureHealthBarLayout.style.visibility = "hidden"; }, 5000);
   
@@ -241,5 +244,6 @@ function killPlayer() {
   stopMusic();
   sound("game_over1");
   postMessage("Игра окончена. В следующий раз Вам повезет больше!");
-  document.removeEventListener("keydown", digitKeyProc);
+  
+  document.querySelector(".inventory").style.display = "none";
 }
