@@ -11,8 +11,8 @@ let libEnemies = [
   {
     image: "files/enemy_cat1.png",
     voice: "meow2",
-    sound_attack: "attack_cat1",
-    sound_die: "death_cat",
+    sound_attack: "attack_cat2",
+    sound_die: "death_cat3",
     health: 23,
     damage: 5,
     maxdamage: 9,
@@ -20,8 +20,8 @@ let libEnemies = [
   {
     image: "files/enemy_cat2.png",
     voice: "meow3",
-    sound_attack: "attack_cat1",
-    sound_die: "death_cat",
+    sound_attack: "attack_cat3",
+    sound_die: "death_cat2",
     health: 19,
     damage: 5,
     maxdamage: 9,
@@ -241,4 +241,5 @@ function killPlayer() {
   stopMusic();
   sound("game_over1");
   postMessage("Игра окончена. В следующий раз Вам повезет больше!");
+  document.removeEventListener("keydown", digitKeyProc);
 }

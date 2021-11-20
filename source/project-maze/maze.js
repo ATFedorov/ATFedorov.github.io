@@ -202,6 +202,7 @@ function initMaze(mazeSize, start) {
   document.querySelector(".maze-container").scrollTo(0, 0);
   
   leftUpperCell = player;
+  document.addEventListener("keydown", digitKeyProc);
 }
 
 // Return cell left from the given cell in a maze:
@@ -369,5 +370,6 @@ function levelUp() {
   nextLevelButton.style.display = "block"; // Show next level button
   // scrollToMaze(); // Scroll to the top of .mazeWrapper element
   
+  document.removeEventListener("keydown", digitKeyProc);
   document.addEventListener("keydown", enterKeyProc);
 }

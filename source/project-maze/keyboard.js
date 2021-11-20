@@ -44,3 +44,12 @@ function enterKeyProc(event) {
   nextLevelButton.click();
   document.removeEventListener("keydown", enterKeyProc);
 }
+
+function digitKeyProc(event) {
+    
+    let inventarCellNumber = +event.key.match(/\d/);
+    
+    if(inventarCellNumber === 0) return;
+    
+    document.querySelector(`.inventory-cell:nth-of-type(${inventarCellNumber})`).click();
+}
