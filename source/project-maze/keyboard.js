@@ -41,7 +41,7 @@ function enterKeyProc(event) {
   
   if (event.key !== "Enter") return;
   
-  nextLevelButton.click();
+  nextMapButton.click();
   document.removeEventListener("keydown", enterKeyProc);
 }
 

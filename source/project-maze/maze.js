@@ -1,13 +1,12 @@
 let INITIAL_PLAYER_POSITION = 0;
 let mazeSize = initMazeSize;
-let level = 1;
-let nSteps = 0;
-let nEnemies = 0;
-let health = 40;
+let map = 1;
+// let nSteps = 0;
+let experience = 0;
 let currentHealth = health;
 
 let newGameButton = document.querySelector(".new-game-button");
-let nextLevelButton = document.querySelector(".menu button.menu-option.next-level");
+let nextMapButton = document.querySelector(".menu button.menu-option.next-map");
 
 // Game entry point:
 newGameButton.onclick = function() {
@@ -35,8 +34,8 @@ newGameButton.onclick = function() {
   scrollToMaze();
 }
 
-// Create next game level:
-nextLevelButton.onclick = function() {
+// Create next game map:
+nextMapButton.onclick = function() {
   flushConsole();
   dropMaze();
   mazeSize++;
@@ -50,6 +49,7 @@ nextLevelButton.onclick = function() {
   updateVisibility();
   showCreatures();
   giveVoices();
+  soundWin.pause();
   resumeMusic();
   
   this.style.display = "none"; // Hide the next game button
@@ -69,7 +69,7 @@ function cellProc() {
     case "cat":
       
       saveCreature(this);
-      levelUp();
+      nextMap();
       
       return;
       
@@ -186,7 +186,7 @@ function initMaze(mazeSize, start) {
   addCat();
   
   // Add enemies in maze:
-  addEnemies( Math.round(1.3 ** level) );
+  addEnemies( Math.round(1.3 ** map) );
   
   // Add item (health potion) into maze:
   addItemIntoMaze("healthPotion");
@@ -291,7 +291,7 @@ function movePlayer(cell) {
   setTimeout(() => { updateAttainableCells(); }, shiftDuration);
   
   // Update and print steps counter:
-  document.getElementById("nSteps").textContent = ++nSteps;
+  // document.getElementById("nSteps").textContent = ++nSteps;
   
   // Update creatures visibility:
   updateVisibility();
@@ -339,29 +339,25 @@ function flushConsole() {
 
 // Update statictics for the level:
 function updateStats() {
-  level++;
-  nSteps = 0;
-  nEnemies = 0;
-  health += 2;
+  map++;
+  // nSteps = 0;
+  // nEnemies = 0;
+  // health += 5;
   currentHealth = health;
 }
 
 // Show statistics for the level:
 function showStats() {
-  let levelOutput = document.getElementById("level");
-  let healthOutput = document.getElementById("health");
-  let stepsOutput = document.getElementById("nSteps");
-  let enemiesOutput = document.getElementById("nEnemies");
-  
-  levelOutput.textContent = level;
-  healthOutput.textContent = health;
-  stepsOutput.textContent = nSteps;
-  enemiesOutput.textContent = nEnemies;
-  document.querySelector(".player-health .health-bar").style.width = "100%";
+
+    document.getElementById("map").textContent = map;
+    document.getElementById("health").textContent = health;
+    document.getElementById("damage").textContent = `${damage}-${maxdamage}`;
+
+    document.querySelector(".player-health .health-bar").style.width = "100%";
 }
 
 // End current game level:
-function levelUp() {
+function nextMap() {
   
   postMessage("Отлично сработано! Принцесса очень довольна Вашей работой :3");
   clearMaze();
@@ -369,7 +365,7 @@ function levelUp() {
   soundWin.play();
   document.querySelector(".maze-container").scrollTo(0, 0);
   // document.querySelector(".maze-container").style.overflow = "hidden";
-  nextLevelButton.style.display = "block"; // Show next level button
+  nextMapButton.style.display = "block"; // Show next level button
   // scrollToMaze(); // Scroll to the top of .mazeWrapper element
   
   document.removeEventListener("keydown", digitKeyProc);

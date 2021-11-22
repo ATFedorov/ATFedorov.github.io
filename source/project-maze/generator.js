@@ -30,3 +30,8 @@ function getRandomNumber(lower, upper) {
   
   return Math.floor(lower + (upper + 1 - lower) * Math.random());
 }
+
+function diceDamage() {
+    
+    return getRandomNumber(damage, maxdamage);
+}

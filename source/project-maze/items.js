@@ -1,5 +1,5 @@
 let libItems = {
-    healthPotion: { image: "files/blood-sample.svg", value: 40, sound: "sound_item_gurgle" }
+    healthPotion: { image: "files/blood-sample.svg", value: 150, sound: "sound_item_gurgle" }
 };
 
 function addItemIntoMaze(idItem) {
@@ -47,10 +47,10 @@ function initInventory() {
             case "healthPotion":
             
                 currentHealth += +cell.dataset.value;
+                currentHealth = (currentHealth > health) ? health : currentHealth;
                 sound(cell.dataset.sound);
                 
                 let healthPercent = Math.round( currentHealth * 100 / health);
-                healthPercent = ( healthPercent > 100 ) ? 100 : healthPercent;
                 
                 let playerHealthBar = document.querySelector(".player-health .health-bar");
                 playerHealthBar.style.width = `${healthPercent}%`;

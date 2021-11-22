@@ -4,45 +4,50 @@ let libEnemies = [
     voice: "rat",
     sound_attack: "punch",
     sound_die: "death_rat",
-    health: 17,
+    health: 10,
     damage: 2,
-    maxdamage: 7,
+    maxdamage: 8,
+    experience: 50,
   },
   {
     image: "files/enemy_cat1.png",
     voice: "meow2",
     sound_attack: "attack_cat2",
     sound_die: "death_cat3",
-    health: 23,
-    damage: 2,
-    maxdamage: 7,
+    health: 14,
+    damage: 4,
+    maxdamage: 10,
+    experience: 125,
   },
   {
     image: "files/enemy_cat2.png",
     voice: "meow3",
     sound_attack: "attack_cat3",
     sound_die: "death_cat2",
-    health: 19,
-    damage: 3,
-    maxdamage: 9,
+    health: 18,
+    damage: 4,
+    maxdamage: 11,
+    experience: 150,
   },
   {
     image: "files/enemy_spider1.png",
     voice: "spider1",
     sound_attack: "attack_spider1",
     sound_die: "death_spider",
-    health: 21,
-    damage: 4,
-    maxdamage: 8,
+    health: 18,
+    damage: 1,
+    maxdamage: 16,
+    experience: 175,
   },
   {
     image: "files/enemy_spider2.svg",
     voice: "spider2",
     sound_attack: "attack_spider2",
     sound_die: "death_spider",
-    health: 16,
+    health: 21,
     damage: 5,
-    maxdamage: 10,
+    maxdamage: 17,
+    experience: 200,
   },
   {
     image: "files/enemy_bat.svg",
@@ -50,8 +55,9 @@ let libEnemies = [
     sound_attack: "attack_bat",
     sound_die: "death_bat2",
     health: 13,
-    damage: 4,
-    maxdamage: 7,
+    damage: 3,
+    maxdamage: 10,
+    experience: 100,
   },
 ];
 
@@ -70,8 +76,9 @@ function getEnemy() {
   let health = libEnemies[id].health;
   let damage = libEnemies[id].damage;
   let maxdamage = libEnemies[id].maxdamage;
+  let experience = libEnemies[id].experience;
   
-  return { skin, voice, sound_attack, sound_die, health, damage, maxdamage };
+  return { skin, voice, sound_attack, sound_die, health, damage, maxdamage, experience };
 }
 
 // Get array of enemies, generated at random:
@@ -106,6 +113,7 @@ function addEnemies(nEnemies) {
     cell.dataset.maxhealth = enemy.health;
     cell.dataset.damage = enemy.damage;
     cell.dataset.maxdamage = enemy.maxdamage;
+    cell.dataset.experience = enemy.experience;
     
     cell.append(enemy.skin);
     
@@ -152,8 +160,12 @@ function killCreature(cell) {
   blood.width = getImgDim();
   cell.append(blood);
   
-  // Update and print enemies counter:
-  document.getElementById("nEnemies").textContent = ++nEnemies;
+  // Update and print experience:
+  document.getElementById("experience").textContent = experience += +cell.dataset.experience;
+  postMessage(`+${cell.dataset.experience} exp.`);
+  
+  // Check experience and level up player if need:
+  levelUp(experience);
   
   sound(cell.dataset.sound_die);
   resumeMusic();
@@ -179,7 +191,7 @@ function attackCreature(cell) {
   
   creatureHealthBarLayout.style.visibility = "visible";
   
-  cell.dataset.health = +cell.dataset.health - 9; // fix damage for test
+  cell.dataset.health = +cell.dataset.health - diceDamage();
   
   let healthPercent = Math.round( +cell.dataset.health * 100 / +cell.dataset.maxhealth);
   healthPercent = ( healthPercent < 0 ) ? 0 : healthPercent;
@@ -210,7 +222,10 @@ function attackPlayerBy(creature) {
   
   setTimeout(() => {
     
-    currentHealth -= getRandomNumber(+creature.dataset.damage, +creature.dataset.maxdamage);
+    let damage = getRandomNumber(+creature.dataset.damage, +creature.dataset.maxdamage);
+    console.log(currentHealth);
+    currentHealth -= damage;
+    console.log(currentHealth);
     
     let healthPercent = Math.round( currentHealth * 100 / health);
     healthPercent = ( healthPercent < 0 ) ? 0 : healthPercent;
@@ -227,7 +242,7 @@ function attackPlayerBy(creature) {
     }
     
     updateAttainableCells();
-  }, 900);
+  }, 700);
 }
 
 function killPlayer() {

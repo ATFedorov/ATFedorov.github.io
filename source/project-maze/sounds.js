@@ -61,8 +61,12 @@ musicBattle.volume = 0.3;
 musicBattle.loop = true;
 
 let soundWin = new Audio();
-soundWin.src = "files/game-won.mp3";
+soundWin.src = "files/secret_level.mp3";
 soundWin.volume = 0.5;
+
+let soundLevelUp = new Audio();
+soundLevelUp.src = "files/game-won.mp3";
+soundLevelUp.volume = 0.8;
 
 let soundClick = new Audio();
 soundClick.src = "files/click.mp3";
