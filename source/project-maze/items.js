@@ -1,9 +1,10 @@
 let libItems = {
     healthPotion: { image: "files/blood-sample.svg", value: 150, sound: "sound_item_gurgle" },
-    poison: { image: "files/item_poison.svg", value: 50, sound: "sound_item_gurgle" }
+    poison: { image: "files/item_poison.svg", value: 50, sound: "sound_item_gurgle" },
+    virus: { image: "files/virus.svg", value: 4, sound: "sound_virus" },
 };
 
-let idItems = ["healthPotion", "poison"];
+let idItems = ["healthPotion", "poison", "virus"];
 
 function addItemIntoMaze(idItem) {
     
@@ -55,6 +56,8 @@ function initInventory() {
         cell.onclick = function() {
             if ( this.classList.contains("empty") ) return;
             
+            let enemies = document.querySelectorAll(".attainable.creature");
+            
             switch (cell.dataset.id) {
             case "healthPotion":
             
@@ -69,14 +72,41 @@ function initInventory() {
                 break;
                 
             case "poison":
-            
-                let enemies = document.querySelectorAll(".attainable.creature");
                 
                 if (enemies.length === 0) return;
                 
                 for (enemy of enemies) {
                     
                     killCreature(enemy, "files/blood3.png");
+                }
+                
+                break;
+                
+            case "virus":
+                
+                if (enemies.length === 0) return;
+                
+                for (enemy of enemies) {
+                    
+                    sound(cell.dataset.sound);
+                    let i = 0;
+                    setTimeout(function exposeVirus(i) {
+                        
+                        if (i >= +cell.dataset.value) return;
+                        
+                        let health = +enemy.dataset.health - +cell.dataset.value;
+                        enemy.dataset.health = (health < 0) ? 0 : health;
+                        // let healthPercent = Math.round( +cell.dataset.health * 100 / +cell.dataset.maxhealth);
+                        // let creatureHealthBar = document.querySelector(".enemy-health .health-bar");
+                        // creatureHealthBar.style.width = `${healthPercent}%`;
+                        
+                        if (+enemy.dataset.health == 0) {
+                            killCreature(enemy, "files/blood3.png");
+                        }
+                        
+                        i++;
+                        setTimeout(exposeVirus(i), 1000, i);
+                    }, 1000, i);
                 }
                 
                 break;

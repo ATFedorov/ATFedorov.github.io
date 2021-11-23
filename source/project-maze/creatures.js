@@ -59,6 +59,16 @@ let libEnemies = [
     maxdamage: 10,
     experience: 100,
   },
+  {
+    image: "files/item_doll.svg",
+    voice: "zombie",
+    sound_attack: "attack_player",
+    sound_die: "death_zombie",
+    health: 28,
+    damage: 2,
+    maxdamage: 18,
+    experience: 250,
+  },
 ];
 
 // Get enemy at random:
@@ -223,9 +233,7 @@ function attackPlayerBy(creature) {
   setTimeout(() => {
     
     let damage = getRandomNumber(+creature.dataset.damage, +creature.dataset.maxdamage);
-    console.log(currentHealth);
     currentHealth -= damage;
-    console.log(currentHealth);
     
     let healthPercent = Math.round( currentHealth * 100 / health);
     healthPercent = ( healthPercent < 0 ) ? 0 : healthPercent;
