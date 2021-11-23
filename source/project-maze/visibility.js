@@ -14,7 +14,7 @@ function updateVisibility() {
     
     if (cell.style.borderRight) break; // Player can't see through the wall
     
-    if (cell.classList.contains("creature")) {
+    if (cell.classList.contains("creature") || cell.classList.contains("item")) {
     
       cell.classList.add("visible");
       // cell.dataset.distance = viewPoint.dataset.column - cell.dataset.column;
@@ -24,7 +24,7 @@ function updateVisibility() {
   // Look for creatures rightward:
   for (let cell = viewPoint; cell !== null; cell = getCellRight(cell)) {
     
-    if (cell.classList.contains("creature")) {
+    if (cell.classList.contains("creature") || cell.classList.contains("item")) {
     
       cell.classList.add("visible");
       // cell.dataset.distance = cell.dataset.column - viewPoint.dataset.column;
@@ -36,7 +36,7 @@ function updateVisibility() {
   // Look for creatures upward:
   for (let cell = viewPoint; cell !== null; cell = getCellAbove(cell)) {
     
-    if (cell.classList.contains("creature")) {
+    if (cell.classList.contains("creature") || cell.classList.contains("item")) {
     
       cell.classList.add("visible");
       // cell.dataset.distance = viewPoint.dataset.row - cell.dataset.row;
@@ -50,7 +50,7 @@ function updateVisibility() {
     
     if (cell.style.borderTop) break; // Player can't see through the wall
     
-    if (cell.classList.contains("creature")) {
+    if (cell.classList.contains("creature") || cell.classList.contains("item")) {
     
       cell.classList.add("visible");
       // cell.dataset.distance = cell.dataset.row - viewPoint.dataset.row;
@@ -74,7 +74,8 @@ function updateVisibility() {
 function showCreatures() {
   
   let hiddenCreatures = document.querySelectorAll(".creature:not(.visible)");
-  let visibleCreatures = document.querySelectorAll(".creature.visible");
+  let hiddenItems = document.querySelectorAll(".item:not(.visible)");
+  let visibles = document.querySelectorAll(".visible");
   
   // Hide creatures:
   for (let creature of hiddenCreatures) {
@@ -82,13 +83,19 @@ function showCreatures() {
     creature.firstChild.style.display = "none";
   }
   
-  // Show creatures:
-  for (let creature of visibleCreatures) {
+  // Hide items:
+  for (let item of hiddenItems) {
     
-    if (creature.firstChild.style.display == "block") continue;
+    item.firstChild.style.display = "none";
+  }
+  
+  // Show creatures and items:
+  for (let visible of visibles) {
     
-    creature.firstChild.style.display = "block";
-    creature.dataset.giveVoice = "true";
+    if (visible.firstChild.style.display == "block") continue;
+    
+    visible.firstChild.style.display = "block";
+    if (!visible.classList.contains("item")) visible.dataset.giveVoice = "true";
   }
 }
 

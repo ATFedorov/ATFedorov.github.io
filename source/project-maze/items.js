@@ -14,17 +14,21 @@ function addItemIntoMaze(idItem) {
     cell.dataset.sound = libItems[idItem].sound;
     
     let itemImage = document.createElement("img");
+    itemImage.classList.add("itemSkin");
     itemImage.src = libItems[idItem].image;
     itemImage.style.height = "40px";
     
     cell.append(itemImage);
 }
 
-function addRandomItemIntoMaze() {
+function addRandomItemsIntoMaze(nItems) {
     
-    let idItem = idItems[getRandomNumber(0, idItems.length - 1)];
-    
-    addItemIntoMaze(idItem);
+    for (let i = 0; i < nItems; i++) {
+        
+        let idItem = idItems[getRandomNumber(0, idItems.length - 1)];
+        
+        addItemIntoMaze(idItem);
+    }
 }
 
 function takeItem(cell) {

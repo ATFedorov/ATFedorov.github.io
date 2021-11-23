@@ -188,8 +188,9 @@ function initMaze(mazeSize, start) {
   // Add enemies in maze:
   addEnemies( Math.round(1.3 ** map) );
   
-  // Add item (health potion) into maze:
-  addRandomItemIntoMaze();
+  // Add items into maze:
+  let nItems = Math.floor(mazeSize / 5);
+  addRandomItemsIntoMaze(nItems);
   
   // Assign cell procedure for maze cells:
   for (let cell of mazeCells) {

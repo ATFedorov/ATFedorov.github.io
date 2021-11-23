@@ -84,8 +84,8 @@ div.maze-wrapper {
   align-items: center;
 }
 
-.maze-cell img {
-  display: block;
+.maze-cell img.itemSkin {
+  display: none;
 }
 
 .maze-cell:not(.maze-row:first-child .maze-cell:first-child):not(.player):hover {
