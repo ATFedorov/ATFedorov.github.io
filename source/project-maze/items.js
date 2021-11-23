@@ -1,8 +1,12 @@
 let libItems = {
-    healthPotion: { image: "files/blood-sample.svg", value: 150, sound: "sound_item_gurgle" }
+    healthPotion: { image: "files/blood-sample.svg", value: 150, sound: "sound_item_gurgle" },
+    poison: { image: "files/item_poison.svg", value: 50, sound: "sound_item_gurgle" }
 };
 
+let idItems = ["healthPotion", "poison"];
+
 function addItemIntoMaze(idItem) {
+    
     let cell = getCellFromFreeCells();
     cell.classList.add("item");
     cell.dataset.id = idItem;
@@ -11,9 +15,16 @@ function addItemIntoMaze(idItem) {
     
     let itemImage = document.createElement("img");
     itemImage.src = libItems[idItem].image;
-    itemImage.style.height = getImgDim() / 1.5 + "px";
+    itemImage.style.height = "40px";
     
     cell.append(itemImage);
+}
+
+function addRandomItemIntoMaze() {
+    
+    let idItem = idItems[getRandomNumber(0, idItems.length - 1)];
+    
+    addItemIntoMaze(idItem);
 }
 
 function takeItem(cell) {
@@ -40,15 +51,11 @@ function initInventory() {
         cell.onclick = function() {
             if ( this.classList.contains("empty") ) return;
             
-            this.classList.add("empty");
-            this.firstChild.remove();
-            
             switch (cell.dataset.id) {
             case "healthPotion":
             
                 currentHealth += +cell.dataset.value;
                 currentHealth = (currentHealth > health) ? health : currentHealth;
-                sound(cell.dataset.sound);
                 
                 let healthPercent = Math.round( currentHealth * 100 / health);
                 
@@ -56,7 +63,28 @@ function initInventory() {
                 playerHealthBar.style.width = `${healthPercent}%`;
                 
                 break;
+                
+            case "poison":
+            
+                let enemies = document.querySelectorAll(".attainable.creature");
+                
+                if (enemies.length === 0) return;
+                
+                for (enemy of enemies) {
+                    
+                    killCreature(enemy, "files/blood3.png");
+                }
+                
+                break;
+                
+            default:
+            
+                return;
             }
+            
+            this.classList.add("empty");
+            this.lastChild.remove();
+            sound(cell.dataset.sound);
         }
     }
 }

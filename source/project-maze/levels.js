@@ -16,6 +16,7 @@ let experienceSteps = [
     17000,
     25000,
     37000,
+    49000,
 ];
 
 let healthSteps = [
@@ -31,6 +32,7 @@ let healthSteps = [
     260,
     310,
     365,
+    425,
 ];
 
 let damageSteps = [
@@ -46,6 +48,8 @@ let damageSteps = [
     {damage: 6, maxdamage: 13},
     {damage: 7, maxdamage: 13},
     {damage: 7, maxdamage: 17},
+    {damage: 8, maxdamage: 17},
+    
 ];
 
 function levelUp(experience) {

@@ -147,7 +147,7 @@ function addCat() {
 }
 
 // Kill creature on the given cell:
-function killCreature(cell) {
+function killCreature(cell, bloodImg) {
   
   if (!cell.classList.contains("creature")) return false;
   
@@ -156,7 +156,7 @@ function killCreature(cell) {
   cell.firstChild.remove();
   let blood = document.createElement("img");
   blood.style.display = "block";
-  blood.src = "files/blood.png";
+  blood.src = bloodImg;
   blood.width = getImgDim();
   cell.append(blood);
   
@@ -204,7 +204,7 @@ function attackCreature(cell) {
   setTimeout(() => { creatureHealthBarLayout.style.visibility = "hidden"; }, 5000);
   
   if ( healthPercent == 0 ) {
-    killCreature(cell);
+    killCreature(cell, "files/blood.png");
     return;
   }
   

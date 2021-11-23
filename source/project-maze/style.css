@@ -313,6 +313,7 @@ button.menu-option.next-map {
 }
 
 .inventory-cell {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -330,4 +331,9 @@ button.menu-option.next-map {
 
 .inventory-cell:hover {
     border-color: yellow;
+}
+
+.inventory-cell span.number {
+    position: absolute;
+    left: 0;
 }
