@@ -1,5 +1,5 @@
 let level = 1; // initial level
-let health = 40; // initial health
+let health = 20; // initial health
 let damage = 2;
 let maxdamage = 5;
 
@@ -21,18 +21,18 @@ let experienceSteps = [
 
 let healthSteps = [
     0,
-    40,
+    20,
+    26,
+    32,
+    38,
+    44,
     50,
-    65,
-    85,
-    110,
-    140,
-    175,
-    215,
-    260,
-    310,
-    365,
-    425,
+    56,
+    62,
+    68,
+    74,
+    80,
+    86,
 ];
 
 let damageSteps = [

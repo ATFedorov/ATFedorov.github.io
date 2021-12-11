@@ -6,7 +6,7 @@ let libEnemies = [
     sound_die: "death_rat",
     health: 10,
     damage: 1,
-    maxdamage: 5,
+    maxdamage: 6,
     experience: 50,
   },
   {
@@ -16,7 +16,7 @@ let libEnemies = [
     sound_die: "death_cat3",
     health: 14,
     damage: 2,
-    maxdamage: 6,
+    maxdamage: 7,
     experience: 125,
   },
   {
@@ -26,7 +26,7 @@ let libEnemies = [
     sound_die: "death_cat2",
     health: 18,
     damage: 2,
-    maxdamage: 7,
+    maxdamage: 8,
     experience: 150,
   },
   {
@@ -36,7 +36,7 @@ let libEnemies = [
     sound_die: "death_spider",
     health: 18,
     damage: 3,
-    maxdamage: 8,
+    maxdamage: 9,
     experience: 175,
   },
   {
@@ -46,7 +46,7 @@ let libEnemies = [
     sound_die: "death_spider",
     health: 21,
     damage: 3,
-    maxdamage: 9,
+    maxdamage: 10,
     experience: 200,
   },
   {
@@ -56,7 +56,7 @@ let libEnemies = [
     sound_die: "death_bat2",
     health: 13,
     damage: 2,
-    maxdamage: 5,
+    maxdamage: 6,
     experience: 100,
   },
   {
@@ -66,7 +66,7 @@ let libEnemies = [
     sound_die: "death_zombie",
     health: 23,
     damage: 3,
-    maxdamage: 10,
+    maxdamage: 11,
     experience: 250,
   },
 ];
@@ -171,7 +171,7 @@ function killCreature(cell, bloodImg) {
   cell.append(blood);
   
   // Update and print experience:
-  document.getElementById("experience").textContent = experience += +cell.dataset.experience;
+  document.getElementById("experience").textContent = `${experience += +cell.dataset.experience} (NL ${experienceSteps[level + 1]})`;
   postMessage(`+${cell.dataset.experience} exp.`);
   
   // Check experience and level up player if need:
@@ -189,6 +189,13 @@ function saveCreature(cell) {
   
   cell.classList.remove("creature");
   cell.firstChild.remove();
+  
+  // Update and print experience:
+  document.getElementById("experience").textContent = `${experience += 300} (NL ${experienceSteps[level + 1]})`;
+  postMessage(`+300 exp.`);
+  
+  // Check experience and level up player if need:
+  levelUp(experience);
   
   return true;
 }

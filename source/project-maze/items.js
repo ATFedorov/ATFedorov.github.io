@@ -86,9 +86,10 @@ function initInventory() {
                 
                 if (enemies.length === 0) return;
                 
+                sound(cell.dataset.sound);
+                
                 for (enemy of enemies) {
                     
-                    sound(cell.dataset.sound);
                     let i = 0;
                     setTimeout(function exposeVirus(i) {
                         
@@ -96,9 +97,6 @@ function initInventory() {
                         
                         let health = +enemy.dataset.health - +cell.dataset.value;
                         enemy.dataset.health = (health < 0) ? 0 : health;
-                        // let healthPercent = Math.round( +cell.dataset.health * 100 / +cell.dataset.maxhealth);
-                        // let creatureHealthBar = document.querySelector(".enemy-health .health-bar");
-                        // creatureHealthBar.style.width = `${healthPercent}%`;
                         
                         if (+enemy.dataset.health == 0) {
                             killCreature(enemy, "files/blood3.png");
